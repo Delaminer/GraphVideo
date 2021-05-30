@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <!-- <script data-main="scripts/main" src="scripts/require.js"></script> -->
+    <link href="./website.css" type="text/css" rel="stylesheet" media="screen"/>
+    <!-- <link href="./tailwind.css" rel="stylesheet"> -->
+</head>
+<body>
+    <div class="signin-page" id="signin-page" style="display: none;">
+        <div class="signin-card">
+            <h1 style="text-align: center;">Sign In</h1>
+            <!-- <p>Please sign in to continue</p> -->
+            <div class="signin-form">
+                <p>Email</p>
+                <input type="text" id="signin-form-email" class="signin-input">
+                <p>Password</p>
+                <input type="password" id="signin-form-password" class="signin-input">
+                <button class="signin-button" id="signin-form-button">Sign In</button>
+                <p class="signin-form-bottom" style="float: left;" id="signin-form-register">Create an Account</p>
+                <p class="signin-form-bottom" style="float: right;" id="signin-form-forgot">Forgot password?</p>
+            </div>
+        </div>
+    </div>
+    <div class="project-page" id="project-page" style="display: block;">
+        <div class="project-card">
+            <p>Turn a video into a graph! Upload the file here...</p>
+            <input type="file" id="videoUpload">
+            <button id="useFile" class="useFile">Use File</button>
+            <p id="status">Please input a file to begin...</p>
+            <div id="calculator" class="calculator"></div>
+        </div>
+    </div>
+    <div class="view-page" style="display: none;">
+        <p>Here are other videos people have made!</p>
+    </div>
+    <script src="./website.js"></script>
+</body>
+</html>

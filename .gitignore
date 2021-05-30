@@ -1,0 +1,25 @@
+# Passwords
+.env
+database.json
+
+# Media (should be auto generated or uploaded by user)
+*.mp4
+*.bmp
+*.dib
+*.gif
+*.tiff
+*.heic
+*.png
+*.jpg
+*.jpeg
+*.jpe
+*.jfif
+*.svg
+
+# All uploads
+uploads/**
+
+# Generated stuff
+__pycache__/
+.vscode/
+node_modules/
