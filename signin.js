@@ -86,16 +86,16 @@ addInputCycle([
 let addError = (element, message) => {
     if (element.error == undefined || element.error == null || element.error == false) {
         element.error = true
-        let msg = document.createElement('p')
-        msg.classList.add('error')
+        let errorMessage = document.createElement('p')
+        errorMessage.classList.add('error')
         element.classList.add('error')
-        msg.textContent = '* ' + message
-        element.parentElement.insertBefore(msg, element)
+        errorMessage.textContent = '* ' + message
+        element.parentElement.insertBefore(errorMessage, element)
         element.addEventListener('focus', (event) => {
             element.error = false
             element.classList.remove('error')
-            if (msg.parentElement)
-                msg.parentElement.removeChild(msg)
+            if (errorMessage.parentElement)
+            errorMessage.parentElement.removeChild(errorMessage)
         })
     }
 }
@@ -121,10 +121,21 @@ document.getElementById('signin-form-button').onclick = () => {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            console.log('signed in')
+            //Successfully signed in
+            document.getElementById('signin-page').style.display = 'none'
+            document.getElementById('community-page').style.display = 'block'
         }
         else {
-            console.log('failed to sign in')
+            //Failed to sign in
+            let form = document.getElementById('signin-form')
+            if (form.error == undefined || form.error == null || form.error == false) {
+                let errorMessage = document.createElement('p')
+                errorMessage.classList.add('error')
+                errorMessage.classList.add('center')
+                errorMessage.textContent = 'Invalid email and password.'
+                form.parentElement.insertBefore(errorMessage, form) //Put the message before the form and after the title
+                form.error = true
+            }
         }
     })
 }
@@ -189,14 +200,31 @@ document.getElementById('register-form-button').onclick = () => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('successfully registered')
+                //Successfully registered
+                document.getElementById('signin-page').style.display = 'none'
+                document.getElementById('community-page').style.display = 'block'
             }
             else {
+                //Failed to register
+
+                //Get the error message
+                let message = 'Unkown error when registering, try again later.'
                 if (data.error == 1) {
-                    console.log('Account email already  taken')
+                    message = 'Email is already used for another account.'
                 }
-                else {
-                    console.log('Unkown error registering')
+                if (data.error == 2) {
+                    message = 'Invalid login, try a different email/name/password.'
+                }
+                
+                //Display the error message
+                let form = document.getElementById('register-form')
+                if (form.error == undefined || form.error == null || form.error == false) {
+                    let errorMessage = document.createElement('p')
+                    errorMessage.classList.add('error')
+                    errorMessage.classList.add('center')
+                    errorMessage.textContent = message
+                    form.parentElement.insertBefore(errorMessage, form) //Put the message before the form and after the title
+                    form.error = true
                 }
             }
         })

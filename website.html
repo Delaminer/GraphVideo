@@ -8,10 +8,10 @@
 </head>
 <body>
     <div class="account" id="signin-page" style="display: block;">
-        <div class="signin" id="account-signin" style="display: none;">
+        <div class="signin" id="account-signin" style="display: block;">
             <h1 class="center">Sign In</h1>
             <!-- <p>Please sign in to continue</p> -->
-            <div class="form">
+            <div class="form" id="signin-form">
                 <p>Email</p>
                 <input type="text" id="signin-form-email" autofocus>
                 <p>Password</p>
@@ -21,9 +21,9 @@
                 <p class="center pointer" style="float: right;" id="signin-goto-forgot">Forgot password?</p>
             </div>
         </div>
-        <div class="register" id="account-register" style="display: block;">
+        <div class="register" id="account-register" style="display: none;">
             <h1 class="center">Create an Account</h1>
-            <div class="form">
+            <div class="form" id="register-form">
                 <p>Display Name</p>
                 <input type="text" id="register-form-username" autofocus>
                 <p>Email</p>
@@ -77,7 +77,7 @@
             </div>
         </div>
     </div>
-    <div class="community" style="display: none;">
+    <div class="community" id="community-page" style="display: none;">
         <p>Here are other videos people have made!</p>
     </div>
     <script src="./signin.js"></script>
