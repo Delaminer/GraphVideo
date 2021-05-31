@@ -3,7 +3,12 @@ let targetHeight = 1
 let currentImageJob = null
 let project = null
 
+try {
 let calculator = Desmos.GraphingCalculator(document.getElementById('calculator'))
+}
+catch (e) {
+    console.log("Desmos could not be loaded")
+}
 
 let getSVGDimensions = (text) => {
     let wl = text.indexOf('width')
@@ -135,7 +140,7 @@ let draw = (path) => {
     let position = [0, 0]
     let newPosition = [0, 0]
     let startingPosition = [0, 0]
-    console.log(path)
+    // console.log(path)
     path.forEach((command, index, array) => {
         switch(command.command) {
             case 'M':
@@ -328,10 +333,10 @@ let uploadFile = () => {
  * 
  */
 
-document.getElementById('signin-form-button').onclick = () => {
-    document.getElementById('project-page').style.display = 'block'
-    document.getElementById('signin-page').style.display = 'none'
-}
+// document.getElementById('signin-form-button').onclick = () => {
+//     document.getElementById('project-page').style.display = 'block'
+//     document.getElementById('signin-page').style.display = 'none'
+// }
 document.getElementById('gbbb').onclick = () => {
     document.getElementById('project-page').style.display = 'none'
     document.getElementById('signin-page').style.display = 'block'

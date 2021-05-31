@@ -7,7 +7,8 @@ require('dotenv').config()
 const nodemailer = require('nodemailer')
 
 let database = {
-    projects: {}
+    projects: {},
+    users: {}
 }
 //Function to save the database whenever
 let saveDatabase = () => {
@@ -35,6 +36,14 @@ fs.readFile("./database.json", 'utf8', (error, data) => {
         }
     }
 })
+
+let validUser = (email, password) => {
+    let existingUser = database.users[email]
+    if (existingUser != undefined && existingUser != null) { //Check if it actually exists
+        return password == existingUser.password
+    }
+    return false
+}
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -291,6 +300,53 @@ app.use((req, res) => {
                     })
                 })
             })
+        }
+        else if (req.url == '/signin') {
+            console.log('signin from '+JSON.stringify(req.body))
+
+            // Sign-in is pretty straightforward. 
+            // Credentials are used for every API call, so signing it doesn't actually do anything, 
+            // it just validates the current credentials are correct, so it will use these for all future API calls.
+
+            // The validUser method here will be used in all other API calls
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            })
+            res.end(JSON.stringify({
+                success: validUser(req.body.email, req.body.password)
+            }))
+        }
+        else if (req.url == '/register') {
+            console.log('resgister from '+JSON.stringify(req.body))
+
+            //Find if a user exists (by email, people can have the same username, which might be removed later)
+            let existingUser = database.users[req.body.email]
+            if (existingUser == undefined || existingUser == null) {
+                //No existing user! Create the account
+                database.users[req.body.email] = {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: req.body.password
+                }
+                saveDatabase()
+
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                })
+                res.end(JSON.stringify({
+                    success: true
+                }))
+            }
+            else {
+                //Account is already taken
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                })
+                res.end(JSON.stringify({
+                    success: false,
+                    error: 1 //Account taken
+                }))
+            }
         }
     }
     else {

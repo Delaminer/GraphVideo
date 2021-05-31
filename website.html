@@ -7,24 +7,40 @@
     <!-- <link href="./tailwind.css" rel="stylesheet"> -->
 </head>
 <body>
-    <div class="signin-page" id="signin-page" style="display: none;">
-        <div class="signin-card">
-            <h1 style="text-align: center;">Sign In</h1>
+    <div class="account" id="signin-page" style="display: block;">
+        <div class="signin" id="account-signin" style="display: none;">
+            <h1 class="center">Sign In</h1>
             <!-- <p>Please sign in to continue</p> -->
-            <div class="signin-form">
+            <div class="form">
                 <p>Email</p>
-                <input type="text" id="signin-form-email" class="signin-input">
+                <input type="text" id="signin-form-email" autofocus>
                 <p>Password</p>
-                <input type="password" id="signin-form-password" class="signin-input">
-                <button class="signin-button" id="signin-form-button">Sign In</button>
-                <p class="signin-form-bottom" style="float: left;" id="signin-form-register">Create an Account</p>
-                <p class="signin-form-bottom" style="float: right;" id="signin-form-forgot">Forgot password?</p>
+                <input type="password" id="signin-form-password">
+                <button class="big-button" id="signin-form-button">Sign In</button>
+                <p class="center pointer" style="float: left;" id="signin-goto-register">Create an Account</p>
+                <p class="center pointer" style="float: right;" id="signin-goto-forgot">Forgot password?</p>
+            </div>
+        </div>
+        <div class="register" id="account-register" style="display: block;">
+            <h1 class="center">Create an Account</h1>
+            <div class="form">
+                <p>Display Name</p>
+                <input type="text" id="register-form-username" autofocus>
+                <p>Email</p>
+                <input type="text" id="register-form-email">
+                <p>Password</p>
+                <input type="password" id="register-form-password">
+                <strong>Note: The security on this website is not very strong, so do not use a password you use frequently!</strong>
+                <p>Confirm Password</p>
+                <input type="password" id="register-form-confirm-password">
+                <button class="big-button" id="register-form-button">Create Account</button>
+                <p class="center pointer" id="register-goto-signin">Or sign in instead</p>
             </div>
         </div>
     </div>
-    <div class="project" id="project-page" style="display: block;">
+    <div class="project" id="project-page" style="display: none;">
         <div class="card">
-            <h1 style="text-align: center;">Create a Graph</h1>
+            <h1 class="center">Create a Graph</h1>
             <div class="type-tab">
                 <button id="project-type-button-video" class="selected">Video</button>
                 <button id="project-type-button-image" >Image</button>
@@ -61,9 +77,10 @@
             </div>
         </div>
     </div>
-    <div class="view-page" style="display: none;">
+    <div class="community" style="display: none;">
         <p>Here are other videos people have made!</p>
     </div>
+    <script src="./signin.js"></script>
     <script src="./website.js"></script>
 </body>
 </html>
