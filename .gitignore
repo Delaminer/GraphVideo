@@ -4,6 +4,7 @@ database.json
 
 # Media (should be auto generated or uploaded by user)
 *.mp4
+*.m4v
 *.bmp
 *.dib
 *.gif

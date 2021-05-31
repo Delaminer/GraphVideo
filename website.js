@@ -3,8 +3,7 @@ let targetHeight = 1
 let currentImageJob = null
 let project = null
 
-var elt = document.getElementById('calculator');
-var calculator = Desmos.GraphingCalculator(elt);
+let calculator = Desmos.GraphingCalculator(document.getElementById('calculator'))
 
 let getSVGDimensions = (text) => {
     let wl = text.indexOf('width')
@@ -271,10 +270,12 @@ let SVGtoDesmos = (svgFileName) => {
 }
 
 // SVGtoDesmos('svgFrames/svg_out-'+String(svgIndex).padStart(5, '0')+'.svg')
+// SVGtoDesmos('zTest.svg')
+// SVGtoDesmos('uploads/ba/svgFrames/svg_frame00175.svg')
 
-document.getElementById('useFile').onclick = () => {
+let uploadFile = () => {
     //Use file to create a video!
-    let files = document.getElementById('videoUpload').files
+    let files = document.getElementById('project-video-upload-file').files
     if (files.length > 0) { //There must be a file...
 
         //Create a form to be sent
@@ -317,10 +318,6 @@ document.getElementById('useFile').onclick = () => {
     }
 }
 
-// SVGtoDesmos('zTest.svg')
-// SVGtoDesmos('uploads/ba/svgFrames/svg_frame00175.svg')
-
-
 
 /**
  * 
@@ -334,4 +331,67 @@ document.getElementById('useFile').onclick = () => {
 document.getElementById('signin-form-button').onclick = () => {
     document.getElementById('project-page').style.display = 'block'
     document.getElementById('signin-page').style.display = 'none'
+}
+document.getElementById('gbbb').onclick = () => {
+    document.getElementById('project-page').style.display = 'none'
+    document.getElementById('signin-page').style.display = 'block'
+}
+let selectProjectType = (enable, disable) => {
+    //Show the desired type
+    document.getElementById('project-'+enable).style.display = 'block'
+    //Hide the undesired type
+    document.getElementById('project-'+disable).style.display = 'none'
+    //Change the CSS to select the tab
+    document.getElementById('project-type-button-'+enable).classList.add('selected')
+    //Change the CSS to deselect the other tab
+    document.getElementById('project-type-button-'+disable).classList.remove('selected')
+}
+document.getElementById('project-type-button-video').onclick = () => {
+    selectProjectType('video', 'image')
+}
+document.getElementById('project-type-button-image').onclick = () => {
+    selectProjectType('image', 'video')
+}
+//This makes a button an file input device (because the default file input is weird looking and hard to customize)
+document.getElementById('project-video-upload-button').onclick = () => {
+    // document.getElementById('project-video-upload-file').click()
+
+        document.getElementById('project-video-upload').style.display = 'none'
+        document.getElementById('project-video-confirm').style.display = 'block'
+}
+//The reupload button, so you can change what you are uploading after ('use a different file')
+document.getElementById('project-video-confirm-dialogue-button').onclick = () => {
+    document.getElementById('project-video-upload-file').click()
+}
+//File has been uploaded
+document.getElementById('project-video-upload-file').onchange = () => {
+    let files = document.getElementById('project-video-upload-file').files
+    if (files.length > 0) { //Move to confirmation slide
+
+        //Change text before updating
+
+
+        //Disable this upload slide
+        document.getElementById('project-video-upload').style.display = 'none'
+        //Enable the confirm slide
+        document.getElementById('project-video-confirm').style.display = 'block'
+    }
+}
+
+document.getElementById('project-video-confirm-start').onclick = () => {
+
+    document.getElementById('project-video-confirm').style.display = 'none'
+    document.getElementById('project-video-render').style.display = 'block'
+
+    let files = document.getElementById('project-video-upload-file').files
+    if (files.length > 0) { //Move to render slide
+
+        //Change text before updating
+
+
+        //Disable this confirm slide
+        document.getElementById('project-video-confirm').style.display = 'none'
+        //Enable the render slide
+        document.getElementById('project-video-render').style.display = 'block'
+    }
 }

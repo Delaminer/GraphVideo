@@ -22,32 +22,27 @@
             </div>
         </div>
     </div>
-    <div class="project" id="project-page" style="display: block;">
-        <div class="card">
+    <div class="project-page" id="project-page" style="display: block;">
+        <div class="project-card">
             <h1 style="text-align: center;">Create a Graph</h1>
-            <div class="type-tab">
-                <button id="project-type-button-video" class="selected">Video</button>
-                <button id="project-type-button-image" >Image</button>
+            <div class="project-type-tab">
+                <button id="project-type-button-video" class="project-type-button selected">Video</button>
+                <button id="project-type-button-image" class="project-type-button">Image</button>
             </div>
-            <div id="project-video" class="video">
+            <div id="project-video">
                 <!-- <p id="status">status text</p> -->
-                <div id="project-video-upload" class="upload" style="display: block;">
+                <div id="project-video-upload">
                     <button id="project-video-upload-button">Upload a file here</button>
                     <input type="file" id="project-video-upload-file" style="display: none;">
                 </div>
-                <div id="project-video-confirm" class="confirm" style="display: none;">
-                    <div class="dialogue">
-                        <span id="project-video-confirm-dialogue-text">File video.mp4 selected</span>
-                        <button id="project-video-confirm-dialogue-button">Use a different file</button>
+                <div id="project-video-confirm" style="display: none;">
+                    <div class="project-video-confirm-dialogue">
+                        <span id="project-video-confirm-dialogue-text" class="project-video-confirm-dialogue-text">File video.mp4 selected</span>
+                        <button id="project-video-confirm-dialogue-button" class="project-video-confirm-dialogue-button">Use a different file</button>
                     </div>
-                    <div class="name">
-                        <p>Project Name</p>
-                        <input type="text" id="project-video-confirm-name-input">
-                    </div>
-                    <button id="project-video-confirm-start" class="start">Start</button>
+                    <button id="useFile" class="useFile">Upload a different file</button>
                 </div>
-                <div id="project-video-render" class="render" style="display: none;">
-                    <p id="render-status">Working on frame 3 of 333.</p>
+                <div id="project-video-render" style="display: none;">
                     <div id="calculator" class="calculator"></div>
                 </div>
                 <button id='gbbb'>Go back</button>
