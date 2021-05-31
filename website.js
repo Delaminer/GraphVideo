@@ -354,10 +354,10 @@ document.getElementById('project-type-button-image').onclick = () => {
 }
 //This makes a button an file input device (because the default file input is weird looking and hard to customize)
 document.getElementById('project-video-upload-button').onclick = () => {
-    // document.getElementById('project-video-upload-file').click()
+    document.getElementById('project-video-upload-file').click()
 
-        document.getElementById('project-video-upload').style.display = 'none'
-        document.getElementById('project-video-confirm').style.display = 'block'
+        // document.getElementById('project-video-upload').style.display = 'none'
+        // document.getElementById('project-video-confirm').style.display = 'block'
 }
 //The reupload button, so you can change what you are uploading after ('use a different file')
 document.getElementById('project-video-confirm-dialogue-button').onclick = () => {
@@ -387,7 +387,7 @@ document.getElementById('project-video-confirm-start').onclick = () => {
     if (files.length > 0) { //Move to render slide
 
         //Change text before updating
-
+        uploadFile()
 
         //Disable this confirm slide
         document.getElementById('project-video-confirm').style.display = 'none'
