@@ -2,6 +2,16 @@
 //TODO: Add localstorage so returning users are automatically signed in
 //TODO: Add signout/profile settings
 
+let signIn = (credentials) => {
+    document.getElementById('signin-page').style.display = 'none'
+    document.getElementById('community-page').style.display = 'block'
+    USER_NAME = credentials.username
+    USER_EMAIL = credentials.email
+    USER_PASSWORD = credentials.password
+
+    loadCommunity(credentials)
+}
+
 //Go to register page from signin page
 document.getElementById('signin-goto-register').onclick = () => {
     document.getElementById('account-signin').style.display = 'none'
@@ -122,8 +132,7 @@ document.getElementById('signin-form-button').onclick = () => {
     .then(data => {
         if (data.success) {
             //Successfully signed in
-            document.getElementById('signin-page').style.display = 'none'
-            document.getElementById('community-page').style.display = 'block'
+            signIn(data)
         }
         else {
             //Failed to sign in
@@ -201,8 +210,7 @@ document.getElementById('register-form-button').onclick = () => {
         .then(data => {
             if (data.success) {
                 //Successfully registered
-                document.getElementById('signin-page').style.display = 'none'
-                document.getElementById('community-page').style.display = 'block'
+                signIn(data)
             }
             else {
                 //Failed to register

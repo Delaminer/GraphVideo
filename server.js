@@ -309,12 +309,25 @@ app.use((req, res) => {
             // it just validates the current credentials are correct, so it will use these for all future API calls.
 
             // The validUser method here will be used in all other API calls
-            res.writeHead(200, {
-                'Content-Type': 'application/json'
-            })
-            res.end(JSON.stringify({
-                success: validUser(req.body.email, req.body.password)
-            }))
+            if (validUser(req.body.email, req.body.password)) {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                })
+                res.end(JSON.stringify({
+                    success: true,
+                    email: req.body.email,
+                    username: database.users[req.body.email].username,
+                    password: req.body.password
+                }))
+            }
+            else {
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                })
+                res.end(JSON.stringify({
+                    success: false,
+                }))
+            }
         }
         else if (req.url == '/register') {
             console.log('resgister from '+JSON.stringify(req.body))
@@ -341,7 +354,10 @@ app.use((req, res) => {
                         'Content-Type': 'application/json'
                     })
                     res.end(JSON.stringify({
-                        success: true
+                        success: true,
+                        email: req.body.email,
+                        username: req.body.username,
+                        password: req.body.password
                     }))
                 }
                 else {

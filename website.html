@@ -5,6 +5,12 @@
     <!-- <script data-main="scripts/main" src="scripts/require.js"></script> -->
     <link href="./website.css" type="text/css" rel="stylesheet" media="screen"/>
     <!-- <link href="./tailwind.css" rel="stylesheet"> -->
+    <script type="text/javascript">
+    //Global variables, these are assigned when you sign in
+        var USER_EMAIL = null
+        var USER_NAME = null
+        var USER_PASSWORD = null
+    </script>
 </head>
 <body>
     <div class="account" id="signin-page" style="display: block;">
@@ -78,8 +84,10 @@
         </div>
     </div>
     <div class="community" id="community-page" style="display: none;">
+        <p id="community-welcome"></p>
         <p>Here are other videos people have made!</p>
     </div>
+    <script src="./community.js"></script>
     <script src="./signin.js"></script>
     <script src="./website.js"></script>
 </body>
