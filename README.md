@@ -3,10 +3,11 @@ Create graphs from videos (and images eventually)!
 Currently, you can upload a video file, the server will convert it into frames, convert those frames into SVGs, which your browser will then turn into functions displayed on your graph! It uses that window to render each frame, sending each completed render to the server, until the video is finished.
 
 ## Setup
-A folder named 'uploads' needs to be created, it is currently added in the .gitignore, but the actual folder needs to be added, but the server cannot create it itself for some reason. Also, create a .env file with
+Create a .env file with the email/password used to send confirmation emails to users and the encryption key for the database.
 ```
 email=youremail@email.com
 password=youremailpassword
+encrypt_key=super_secret_key
 ```
 Your email account security settings may need to be lessened in order for emails to be sent through SMTP.
 
@@ -15,9 +16,9 @@ The server needs to be started with
 ```
 node server.js
 ```
-And go to http://localhost:3000/website.html
+Then go to http://localhost:3000/website.html
+
 ## Future changes
-- Sign in option (so this can be ran securely on a real server)
 - Share projects webpage (which would use the signin accounts)
 - Pause and resume render progress (currently it has be rendered all at once)
 - Allow multiple workers (possibly with NodeJS and not the broswer?)
