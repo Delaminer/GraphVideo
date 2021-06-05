@@ -18,7 +18,8 @@ database.json
 *.svg
 
 # All uploads
-uploads/**
+uploads/*
+!uploads/.gitkeep
 
 # Generated stuff
 __pycache__/
