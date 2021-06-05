@@ -2,6 +2,14 @@
 Create graphs from videos (and images eventually)!
 Currently, you can upload a video file, the server will convert it into frames, convert those frames into SVGs, which your browser will then turn into functions displayed on your graph! It uses that window to render each frame, sending each completed render to the server, until the video is finished.
 
+## Setup
+A folder named 'uploads' needs to be created, it is currently added in the .gitignore, but the actual folder needs to be added, but the server cannot create it itself for some reason. Also, create a .env file with
+```
+email=youremail@email.com
+password=youremailpassword
+```
+Your email account security settings may need to be lessened in order for emails to be sent through SMTP.
+
 ## Use
 The server needs to be started with
 ```
