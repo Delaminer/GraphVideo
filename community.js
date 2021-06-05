@@ -1,12 +1,5 @@
-// let USER_EMAIL = null
-// let USER_NAME = null
-// let USER_PASSWORD = null
-
 //Run this script only when asked to (because credentials from signin.js need to be found beforehand)
 var loadCommunity = (credentials) => {
-    // USER_NAME = credentials.username
-    // USER_EMAIL = credentials.email
-    // USER_PASSWORD = credentials.password
 
     console.log(JSON.stringify(credentials))
 

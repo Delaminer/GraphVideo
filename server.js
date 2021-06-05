@@ -55,8 +55,8 @@ const transporter = nodemailer.createTransport({
 let mailOptions = {
     from: process.env.email,
     to: 'alexander.delaiglesia@gmail.com',
-    subject: 'Welcome from NodeJS',
-    text: 'This email was sent to you!'
+    subject: 'GraphVideo Confirmation Email',
+    text: 'Thank you for signing up.'
 }
 // transporter.sendMail(mailOptions, function(error, info){
 //   if (error) {
@@ -65,6 +65,17 @@ let mailOptions = {
 //     console.log('Email sent: ' + info.response)
 //   }
 // })
+let sendConfirmationEmail = (user) => {
+    mailOptions.to = user.email
+    mailOptions.text = `Thank you ${user.username} for signing up for GraphVideo. Please enter the code ${user.code} on the website to verify your email address (${user.email}). Thank you.`
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Email sent: ' + info.response)
+      }
+    })
+}
 
 app.use(express.json({ limit: '50mb', extended: true }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
@@ -346,10 +357,12 @@ app.use((req, res) => {
                     database.users[req.body.email] = {
                         username: req.body.username,
                         email: req.body.email,
-                        password: req.body.password
+                        password: req.body.password,
+                        verified: false,
+                        code: Math.random().toString(36).substring(7).toUpperCase()
                     }
                     saveDatabase()
-    
+                    sendConfirmationEmail(database.users[req.body.email])
                     res.writeHead(200, {
                         'Content-Type': 'application/json'
                     })

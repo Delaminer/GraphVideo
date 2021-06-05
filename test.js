@@ -30,15 +30,17 @@
 
 // })
 
-let i = {
-    a: 1,
-    b: 2,
-    c: {
-        x: 'xx',
-        y: 'yy'
-    }
-}
-let test = i.c
-test.x = 'gg'
-console.log(test.x)
-console.log(i.c.x)
+// let i = {
+//     a: 1,
+//     b: 2,
+//     c: {
+//         x: 'xx',
+//         y: 'yy'
+//     }
+// }
+// let test = i.c
+// test.x = 'gg'
+// console.log(test.x)
+// console.log(i.c.x)
+require('dotenv').config()
+console.log(process.env.email)
