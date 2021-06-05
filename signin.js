@@ -1,16 +1,45 @@
 //Simple script to sign in to the website, storing the email/password in a variable so it can be used in API requests.
-//TODO: Add localstorage so returning users are automatically signed in
 //TODO: Add signout/profile settings
 
 let signIn = (credentials) => {
     document.getElementById('signin-page').style.display = 'none'
     document.getElementById('community-page').style.display = 'block'
     USER_NAME = credentials.username
+    localStorage.setItem('username', credentials.username)
     USER_EMAIL = credentials.email
+    localStorage.setItem('email', credentials.email)
     USER_PASSWORD = credentials.password
+    localStorage.setItem('password', credentials.password)
 
     loadCommunity(credentials)
 }
+
+let autoSignIn = () => {
+    let username = localStorage.getItem('username')
+    let email = localStorage.getItem('email')
+    let password = localStorage.getItem('password')
+    if (username != null && email != null && password != null) {
+        //Auto sign in
+        fetch('/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                //Successfully signed in
+                signIn(data)
+            }
+        })
+    }
+}
+autoSignIn()
 
 //Go to register page from signin page
 document.getElementById('signin-goto-register').onclick = () => {
