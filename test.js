@@ -43,4 +43,28 @@
 // console.log(test.x)
 // console.log(i.c.x)
 require('dotenv').config()
-console.log(process.env.email)
+// console.log(process.env.email)
+const fs = require('fs')
+
+var CryptoJS = require("crypto-js")
+ 
+// var ciphertext = CryptoJS.AES.encrypt('my message', process.env.encrypt_key).toString()
+// console.log(ciphertext)
+// fs.writeFile("secret.json", ciphertext, function(err) {
+//     if (err) {
+//         console.log("Unable to save database: "+err)
+//     }
+// })
+
+
+// var originalText  = CryptoJS.AES.decrypt(ciphertext, process.env.encrypt_key).toString(CryptoJS.enc.Utf8) 
+// console.log(originalText)
+
+fs.readFile("./secret.json", 'utf8', (error, data) => {
+    if (error) {
+        console.log("No saved database found.")
+        return
+    }
+    var originalText  = CryptoJS.AES.decrypt(data, process.env.encrypt_key).toString(CryptoJS.enc.Utf8) 
+    console.log(originalText)
+})

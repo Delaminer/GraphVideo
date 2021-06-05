@@ -5,6 +5,7 @@ const fileUpload = require('express-fileupload')
 const { exec } = require("child_process")
 require('dotenv').config()
 const nodemailer = require('nodemailer')
+const CryptoJS = require("crypto-js")
 
 let database = {
     projects: {},
@@ -12,20 +13,24 @@ let database = {
 }
 //Function to save the database whenever
 let saveDatabase = () => {
-    fs.writeFile("database.json", JSON.stringify(database, null, 4), function(err) {
+    //Decrypt the data
+    let encryptedDatabase = CryptoJS.AES.encrypt(JSON.stringify(database), process.env.encrypt_key).toString()
+    fs.writeFile("database.db", encryptedDatabase, function(err) {
         if (err) {
             console.log("Unable to save database: "+err)
         }
     })
 }
 //Load database
-fs.readFile("./database.json", 'utf8', (error, data) => {
+fs.readFile("./database.db", 'utf8', (error, data) => {
     if (error) {
         console.log("No saved database found.")
         saveDatabase() //Create a blank file
     }
     else {
         console.log("Using saved database.")
+        //Decrypt the data
+        data  = CryptoJS.AES.decrypt(data, process.env.encrypt_key).toString(CryptoJS.enc.Utf8) 
         try {
             data = JSON.parse(data)
             database = data //No arrays are in the database right now (only objects), so their prototypes don't need to be manually edited, allowing this easy assignment to be used.

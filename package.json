@@ -1,0 +1,29 @@
+{
+  "name": "graphvideo",
+  "version": "1.0.0",
+  "description": "Create graphs from videos.",
+  "main": "server.js",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "fs": "^0.0.1-security",
+    "nodemailer": "^6.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Delaminer/GraphVideo.git"
+  },
+  "author": "Alex de la Iglesia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Delaminer/GraphVideo/issues"
+  },
+  "homepage": "https://github.com/Delaminer/GraphVideo#readme"
+}

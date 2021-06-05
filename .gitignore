@@ -1,6 +1,7 @@
 # Passwords
 .env
 database.json
+database.db
 
 # Media (should be auto generated or uploaded by user)
 *.mp4

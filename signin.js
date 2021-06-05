@@ -69,29 +69,6 @@ addInputCycle([
     'register-form-button'
 ])
 
-// //Add messages requiring a field to be completed if it is clicked out of before it is completedd
-// let addRequiredField = (element) => {
-
-// }
-
-// [
-//     // 'signin-form-email',
-//     'signin-form-password',
-//     // 'signin-form-button',
-//     'register-form-username',
-//     // 'register-form-email',
-//     'register-form-password',
-//     'register-form-confirm-password',
-//     // 'register-form-button'
-// ].map(v => document.getElementById(v)).forEach(v => {
-//     v.addEventListener('focusout', (event) => {
-//         console.log('hi')
-//         // if (v.value.length == 0) {
-//         //     console.log('hey')
-//         // }
-//     })
-// })
-
 //Error messages: for when signin/registration fails
 let addError = (element, message) => {
     if (element.error == undefined || element.error == null || element.error == false) {
@@ -109,14 +86,13 @@ let addError = (element, message) => {
         })
     }
 }
-// addError(document.getElementById('register-form-password'), 'This field is required.')
-
 
 //Attempt signin
 document.getElementById('signin-form-button').onclick = () => {
     //Sign in. First check it is valid, then attempt sign in with server
     let email = document.getElementById('signin-form-email').value
     let password = document.getElementById('signin-form-password').value
+    let hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64)
 
     fetch('/signin', {
         method: 'POST',
@@ -125,7 +101,7 @@ document.getElementById('signin-form-button').onclick = () => {
         },
         body: JSON.stringify({
             email: email,
-            password: password
+            password: hashedPassword
         })
     })
     .then(response => response.json())
@@ -195,6 +171,8 @@ document.getElementById('register-form-button').onclick = () => {
     }
     
     if (valid) {
+        //Adding a hash so your password is not actually ever used
+        let hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64)
         fetch('/register', {
             method: 'POST',
             headers: {
@@ -203,7 +181,7 @@ document.getElementById('register-form-button').onclick = () => {
             body: JSON.stringify({
                 username: username,
                 email: email,
-                password: password
+                password: hashedPassword
             })
         })
         .then(response => response.json())
