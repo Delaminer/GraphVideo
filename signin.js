@@ -4,11 +4,14 @@
 let signIn = (credentials) => {
     document.getElementById('signin-page').style.display = 'none'
     document.getElementById('community-page').style.display = 'block'
+    
+    //Update global variables
     USER_NAME = credentials.username
-    localStorage.setItem('username', credentials.username)
     USER_EMAIL = credentials.email
-    localStorage.setItem('email', credentials.email)
     USER_PASSWORD = credentials.password
+    //Update local-save
+    localStorage.setItem('username', credentials.username)
+    localStorage.setItem('email', credentials.email)
     localStorage.setItem('password', credentials.password)
 
     loadCommunity(credentials)
@@ -18,7 +21,7 @@ let autoSignIn = () => {
     let username = localStorage.getItem('username')
     let email = localStorage.getItem('email')
     let password = localStorage.getItem('password')
-    if (username != null && email != null && password != null) {
+    if (username != null && email != null && password != null && username != '') {
         //Auto sign in
         fetch('/signin', {
             method: 'POST',

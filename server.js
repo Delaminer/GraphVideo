@@ -59,7 +59,7 @@ const transporter = nodemailer.createTransport({
 })
 let mailOptions = {
     from: process.env.email,
-    to: 'alexander.delaiglesia@gmail.com',
+    to: 'email@email.com',
     subject: 'GraphVideo Confirmation Email',
     text: 'Thank you for signing up.'
 }
@@ -333,7 +333,8 @@ app.use((req, res) => {
                     success: true,
                     email: req.body.email,
                     username: database.users[req.body.email].username,
-                    password: req.body.password
+                    password: req.body.password,
+                    verified: database.users[req.body.email].verified
                 }))
             }
             else {
@@ -375,7 +376,8 @@ app.use((req, res) => {
                         success: true,
                         email: req.body.email,
                         username: req.body.username,
-                        password: req.body.password
+                        password: req.body.password,
+                        verified: false
                     }))
                 }
                 else {
