@@ -1,7 +1,12 @@
 //Simple script to sign in to the website, storing the email/password in a variable so it can be used in API requests.
 //TODO: Add signout/profile settings
 
+document.getElementById('signin-page').style.display = 'none'
+document.getElementById('community-page').style.display = 'none'
+document.getElementById('home-page').style.display = 'block'
+
 let signIn = (credentials) => {
+    document.getElementById('home-page').style.display = 'none'
     document.getElementById('signin-page').style.display = 'none'
     document.getElementById('community-page').style.display = 'block'
     
@@ -39,7 +44,17 @@ let autoSignIn = () => {
                 //Successfully signed in
                 signIn(data)
             }
+            else {
+                document.getElementById('home-page').style.display = 'none'
+                document.getElementById('community-page').style.display = 'none'
+                document.getElementById('signin-page').style.display = 'block'
+            }
         })
+    }
+    else {
+        document.getElementById('home-page').style.display = 'none'
+        document.getElementById('community-page').style.display = 'none'
+        document.getElementById('signin-page').style.display = 'block'
     }
 }
 autoSignIn()

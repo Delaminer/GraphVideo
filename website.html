@@ -16,7 +16,22 @@
     </script>
 </head>
 <body>
-    <div class="account" id="signin-page" style="display: block;">
+    <div class="home" id="home-page" style="display: block;">
+        <div>
+            <h1>Graph Video</h1>
+            <p>Please wait...</p>
+            <svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice">
+                <!-- <circle cx="50%" cy="50%" r="4" fill="red"/> -->
+                <!-- <path fill="white" stroke="green" d="M0 0 l10 10 h-5 z"></path> -->
+                <!-- <path fill="white" stroke="green" d="M 6,10 A 6 4 0 1 1 10,10"></path> -->
+                <path fill="none" stroke="black" d="M 1 5 A 4 4 0 1 1 9 5" stroke-linecap="round">
+                    <animateTransform attributeName="transform" type="rotate" dur="1s" from="0 5 5" to="360 5 5" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+        
+    </div>
+    <div class="account" id="signin-page" style="display: none;">
         <div class="signin" id="account-signin" style="display: block;">
             <h1 class="center">Sign In</h1>
             <!-- <p>Please sign in to continue</p> -->
