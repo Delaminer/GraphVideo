@@ -1,59 +1,77 @@
-/* Some stuff is applied to the body */
-body {
+html {
+
+    /* margin: 0; */
+    padding: 0;
+    width: 100%;
+    height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
+}
+body {
+    margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
     overflow: auto;
 }
+button {
+    user-select: none;
+}
 
-/* Helpful CSS tools: */
-button { user-select: none; }
-.pointer { cursor: pointer; }
-.center { text-align: center; }
-.error { color: red; font-weight: bold; }
-input.error { border-color: rgb(255, 0, 0) !important; }
-.hint { font-style: italic; margin: 0; color: gray; }
-.goback { margin: 0; padding: 0; width: 25%; }
-.underline { text-decoration: underline; }
+.pointer {
+    cursor: pointer;
+}
+.center {
+    text-align: center;
+}
+.error {
+    color: red;
+    font-weight: bold;
+}
 
-/* Home tab */
+input.error {
+    
+    border-color: rgb(255, 0, 0) !important;
+    /* font-family: 'Times New Roman', Times, serif; */
+}
+
 .home {
     width: 100%;
     height: 100%;
     background-color: rgb(162, 255, 255);
-    user-select: none;
 }
-.home .logo {
+.home * {
     text-align: center;
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    -moz-transform: translate(0, -50%);
-    -webkit-transform: translate(0, -50%);
-    transform: translate(0, -50%);
 }
-.home .logo h1 {
+.home div {
+    padding: 30px;
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.home h1 {
+    margin: 0;
     font-size: 50px;
     text-shadow: rgb(102, 147, 158) 2px 2px 10px;
 }
-.home .logo svg {
+.home svg {
     width: 100px;
     height: 100px;
 }
 
-/* Account Tab */
 .account {
-    margin: 0;
-    padding: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background: dodgerblue linear-gradient(45deg, aqua, dodgerblue, deeppink) fixed;
+    margin: 0 auto;
     overflow: auto;
 }
 .signin,
 .register {
-    margin-top: 20px;
-    margin-bottom: 20px;
     padding: 10px 50px 10px;
     background-color: white;
     border-radius: 20px;
@@ -62,13 +80,16 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     border-color: rgb(187, 218, 223);
     width: 50%;
     max-width: 500px;
+    min-height: 20%;
     font-size: large;
     font-weight: 400;
-    position: relative;
+
+    position: absolute;
+    top: 50%;
     left: 50%;
-    -moz-transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
 .form {
     padding: 10px;
@@ -76,7 +97,6 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     box-sizing: border-box;
     margin: auto;
 }
-
 .form input,
 .project .video .confirm .name input {
     width: 100%;
@@ -112,6 +132,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     color: white;
     cursor: pointer;
     background-color: rgb(52, 98, 199);
+    
     font-size: large;
     font-weight: bold;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -123,23 +144,6 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     transform: translateY(4px);
 }
 
-/* Bottom class is for special stacking at the end of a form */
-.bottom:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-.bottom p {
-    float: left;
-    width: 49%;
-}
-@media screen and (max-width: 700px) {
-    .bottom p {
-      width: 100%;
-    }
-}
-
-/* Project Tab */
 .project {
     width: 100%;
     height: 100%;
@@ -156,7 +160,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     max-width: 500px;
     min-height: 30%;
 
-    position: relative;
+    position: absolute;
     top: 50%;
     left: 50%;
     -moz-transform: translateX(-50%) translateY(-50%);

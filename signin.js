@@ -45,6 +45,8 @@ let autoSignIn = () => {
                 signIn(data)
             }
             else {
+                document.getElementById('account-signin').style.display = 'block'
+                document.getElementById('account-register').style.display = 'none'
                 document.getElementById('home-page').style.display = 'none'
                 document.getElementById('community-page').style.display = 'none'
                 document.getElementById('signin-page').style.display = 'block'
@@ -52,6 +54,9 @@ let autoSignIn = () => {
         })
     }
     else {
+        document.getElementById('account-signin').style.display = 'block'
+        document.getElementById('account-register').style.display = 'none'
+
         document.getElementById('home-page').style.display = 'none'
         document.getElementById('community-page').style.display = 'none'
         document.getElementById('signin-page').style.display = 'block'

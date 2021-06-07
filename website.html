@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html>
 <head>
     <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
@@ -17,37 +17,37 @@
 </head>
 <body>
     <div class="home" id="home-page" style="display: block;">
-        <div>
+        <div class="logo">
             <h1>Graph Video</h1>
             <p>Please wait...</p>
             <svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice">
-                <!-- <circle cx="50%" cy="50%" r="4" fill="red"/> -->
-                <!-- <path fill="white" stroke="green" d="M0 0 l10 10 h-5 z"></path> -->
-                <!-- <path fill="white" stroke="green" d="M 6,10 A 6 4 0 1 1 10,10"></path> -->
                 <path fill="none" stroke="black" d="M 1 5 A 4 4 0 1 1 9 5" stroke-linecap="round">
                     <animateTransform attributeName="transform" type="rotate" dur="1s" from="0 5 5" to="360 5 5" repeatCount="indefinite" />
                 </path>
             </svg>
         </div>
-        
+        <!-- <p>Test</p> -->
+        <!-- <div class="background"></div> -->
     </div>
     <div class="account" id="signin-page" style="display: none;">
         <div class="signin" id="account-signin" style="display: block;">
             <h1 class="center">Sign In</h1>
-            <!-- <p>Please sign in to continue</p> -->
+            <p class="center hint">Please sign in to continue</p>
             <div class="form" id="signin-form">
                 <p>Email</p>
                 <input type="text" id="signin-form-email" autofocus>
                 <p>Password</p>
                 <input type="password" id="signin-form-password">
                 <button class="big-button" id="signin-form-button">Sign In</button>
-                <p class="center pointer" style="float: left;" id="signin-goto-register">Create an Account</p>
-                <p class="center pointer" style="float: right;" id="signin-goto-forgot">Forgot password?</p>
+                <div class="bottom">
+                    <p class="center pointer" id="signin-goto-register">Create an Account</p>
+                    <p class="center pointer" id="signin-goto-forgot">Forgot password?</p>
+                </div>
             </div>
         </div>
         <div class="register" id="account-register" style="display: none;">
-            <h1 class="center">Create an Account</h1>
             <div class="form" id="register-form">
+                <h1 class="center">Create an Account</h1>
                 <p>Display Name</p>
                 <input type="text" id="register-form-username" autofocus>
                 <p>Email</p>
@@ -64,13 +64,13 @@
     </div>
     <div class="project" id="project-page" style="display: none;">
         <div class="card">
+            <p class="underline goback pointer" id='project-goback'>Go back</p>
             <h1 class="center">Create a Graph</h1>
             <div class="type-tab">
                 <button id="project-type-button-video" class="selected">Video</button>
                 <button id="project-type-button-image" >Image</button>
             </div>
             <div id="project-video" class="video">
-                <!-- <p id="status">status text</p> -->
                 <div id="project-video-upload" class="upload" style="display: block;">
                     <button id="project-video-upload-button">Upload a file here</button>
                     <input type="file" id="project-video-upload-file" style="display: none;">
@@ -90,13 +90,11 @@
                     <p id="render-status">Working on frame 3 of 333.</p>
                     <div id="calculator" class="calculator"></div>
                 </div>
-                <button id='gbbb'>Go back</button>
             </div>
             <div id="project-image" style="display: none;">
                 <input type="file" id="project-image-upload-file">
                 <button id="useFile" class="useFile">Use File</button>
                 <p id="status">Please input an image file to begin...</p>
-                <button id='gbbb'>Go back</button>
                 <div id="image-calculator" class="calculator"></div>
             </div>
         </div>
@@ -108,9 +106,6 @@
             <button id="community-project">Start a Project</button>
             <p>Here are other videos people have made!</p>
         </div>
-        <!-- <p id="community-welcome"></p>
-        <p>Here are other videos people have made!</p>
-        <button id="community-signout">Sign Out</button> -->
     </div>
     <script src="./community.js"></script>
     <script src="./signin.js"></script>
