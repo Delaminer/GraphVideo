@@ -25,11 +25,16 @@ let saveDatabase = () => {
             console.log("Unable to save database: "+err)
         }
     })
+    fs.writeFile("database.json", JSON.stringify(database, null, 4), function(err) {
+        if (err) {
+            console.log("Unable to save database: "+err)
+        }
+    })
 }
 //Load database
 fs.readFile("./database.db", 'utf8', (error, data) => {
     if (error) {
-        console.log("No saved database found.")
+        console.log("No saved database found. Creating a new one.")
         saveDatabase() //Create a blank file
     }
     else {
@@ -41,8 +46,8 @@ fs.readFile("./database.db", 'utf8', (error, data) => {
             database = data //No arrays are in the database right now (only objects), so their prototypes don't need to be manually edited, allowing this easy assignment to be used.
         }
         catch(error) {
-            console.log('Not using saved database.')
-            saveDatabase()
+            console.log('Database is corrupt, overwriting...')
+            saveDatabase() //Overwrite with a blank database
         }
     }
 })
@@ -159,7 +164,7 @@ app.use((req, res) => {
                 if (complete == 2) {
                     //Complete some extra steps to finish the video
                     console.log(`Project ${project.projectName} completed, creating final video file...`)
-                    let command = `ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i uploads/${project.projectName}/finalFrames/final_frame%05d.png -i uploads/${project.projectName}/${project.fileName} -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p uploads/${project.projectName}/final_${project.fileName}`
+                    let command = `ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i uploads/${project.folderBaseName}/finalFrames/final_frame%05d.png -i uploads/${project.folderBaseName}/${project.fileName} -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p uploads/${project.folderBaseName}/final_${project.fileName}`
                     console.log(command)
                     exec(command, (error, stdout, stderr) => {
                         if (error) {
