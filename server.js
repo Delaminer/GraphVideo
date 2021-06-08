@@ -118,7 +118,6 @@ app.use((req, res) => {
                     return res.end(JSON.stringify({ code: 'Could not create file' }))
                  };
                 
-
                 console.log(`Saved frame ${req.body.frame} of ${req.body.baseName}.`)
 
                 //Creating a local project variable to help shorten variable names
@@ -191,7 +190,8 @@ app.use((req, res) => {
         else if (req.url == '/uploadVideo') {
             //Upload video, then process and send back svg data? (something like that)
             let fileName = req.files.video.name
-            let baseName = fileName.substring(0, fileName.indexOf('.'))
+            // let baseName = fileName.substring(0, fileName.indexOf('.'))
+            let baseName = req.body.name
             let folderName = __dirname + '/uploads/'+baseName
 
             //Create a new folder for this video and its project
@@ -268,7 +268,7 @@ app.use((req, res) => {
                                 finished: false,
                                 todo: {}
                             }
-                            //Add todo frames (all of them)
+                            //Add todo frames (all of them). Todo indices start at 1, for ease of reading
                             for(let i = 1; i <= frames; i++) {
                                 database.projects[baseName].todo[i] = 0 //0 = not done, 1 = assigned, 2 = complete
                             }

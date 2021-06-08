@@ -156,12 +156,6 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     width: 50%;
     max-width: 500px;
     min-height: 30%;
-    /* position: relative;
-    top: 50%;
-    left: 50%;
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%); */
     margin-top: 20px;
     margin-bottom: 20px;
     position: relative;

@@ -281,11 +281,13 @@ let SVGtoDesmos = (svgFileName) => {
 let uploadVideoFile = () => {
     //Use file to create a video!
     let files = document.getElementById('project-video-upload-file').files
+    let projectName = document.getElementById('project-video-confirm-name-input').value
     if (files.length > 0) { //There must be a file...
 
         //Create a form to be sent
         let form = new FormData()
         form.append('video', files[0]) //Only using the first file
+        form.append('name', projectName)
 
         //Upload it
         fetch('/uploadVideo', {
@@ -389,7 +391,7 @@ document.getElementById('project-video-confirm-start').onclick = () => {
 
     let files = document.getElementById('project-video-upload-file').files
     let projectName = document.getElementById('project-video-confirm-name-input').value
-    if (false && files.length > 0 && projectName.length > 0) { //Move to render slide
+    if (files.length > 0 && projectName.length > 0) { //Move to render slide
 
         //Change text before updating
         uploadVideoFile()
