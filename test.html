@@ -10,21 +10,55 @@
                 background-color: aquamarine;
                 text-align: center;
                 position: absolute;
-                width: 100%;
+                width: 70%;
                 top: 50%;
-                transform: translate(0, -50%);
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
             body {
                 margin: 0;
                 padding: 0;
                 background-color: pink;
             }
+.project .type-tab {
+    width: 100%;
+    /* border-bottom: solid 2px lightgray; */
+}
+.project .type-tab button {
+    width: 50%;
+    background-color: aquamarine;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    /* border-bottom: solid 2px lightgray; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.project .type-tab button.selected {
+    width: 50%;
+    /* background-color: rgb(233, 233, 233); */
+    cursor: auto;
+    border: solid 2px lightgray;
+    border-bottom: none;
+}
+.project .type-tab button:hover {
+    background-color: rgb(245, 245, 245);
+}
+.project .type-tab button.selected:hover {
+    background-color: aquamarine;
+}
         </style>
     </head>
     <body>
         <div class="base">
-            <div class="box">
+            <div class="box project">
                 <h1>Please wait</h1>
+                <div class="type-tab">
+                <button id="project-type-button-video" class="selected">Video</button><!--
+                --><button id="project-type-button-image" >Image</button>
+            </div>
+            <p>More</p>
             </div>
         </div>
     </body>

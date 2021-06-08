@@ -4,7 +4,7 @@ let currentImageJob = null
 let project = null
 
 try {
-let calculator = Desmos.GraphingCalculator(document.getElementById('calculator'))
+    let calculator = Desmos.GraphingCalculator(document.getElementById('video-calculator'))
 }
 catch (e) {
     console.log("Desmos could not be loaded")
@@ -278,7 +278,7 @@ let SVGtoDesmos = (svgFileName) => {
 // SVGtoDesmos('zTest.svg')
 // SVGtoDesmos('uploads/ba/svgFrames/svg_frame00175.svg')
 
-let uploadFile = () => {
+let uploadVideoFile = () => {
     //Use file to create a video!
     let files = document.getElementById('project-video-upload-file').files
     if (files.length > 0) { //There must be a file...
@@ -336,9 +336,9 @@ let uploadFile = () => {
 //     document.getElementById('project-page').style.display = 'block'
 //     document.getElementById('signin-page').style.display = 'none'
 // }
-document.getElementById('gbbb').onclick = () => {
+document.getElementById('project-goback').onclick = () => {
     document.getElementById('project-page').style.display = 'none'
-    document.getElementById('signin-page').style.display = 'block'
+    document.getElementById('community-page').style.display = 'block'
 }
 let selectProjectType = (enable, disable) => {
     //Show the desired type
@@ -373,7 +373,7 @@ document.getElementById('project-video-upload-file').onchange = () => {
     if (files.length > 0) { //Move to confirmation slide
 
         //Change text before updating
-
+        document.getElementById('project-video-confirm-dialogue-text').textContent = `File ${files[0].name} selected`
 
         //Disable this upload slide
         document.getElementById('project-video-upload').style.display = 'none'
@@ -388,10 +388,11 @@ document.getElementById('project-video-confirm-start').onclick = () => {
     document.getElementById('project-video-render').style.display = 'block'
 
     let files = document.getElementById('project-video-upload-file').files
-    if (files.length > 0) { //Move to render slide
+    let projectName = document.getElementById('project-video-confirm-name-input').value
+    if (false && files.length > 0 && projectName.length > 0) { //Move to render slide
 
         //Change text before updating
-        uploadFile()
+        uploadVideoFile()
 
         //Disable this confirm slide
         document.getElementById('project-video-confirm').style.display = 'none'
