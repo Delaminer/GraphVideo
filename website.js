@@ -2,9 +2,9 @@ let targetWidth = 1
 let targetHeight = 1
 let currentImageJob = null
 let project = null
-
+let calculator
 try {
-    let calculator = Desmos.GraphingCalculator(document.getElementById('video-calculator'))
+    calculator = Desmos.GraphingCalculator(document.getElementById('video-calculator'))
 }
 catch (e) {
     console.log("Desmos could not be loaded")
@@ -192,10 +192,13 @@ let draw = (path) => {
 //Run this command to render an image. Can be ran to start the process, or after one is finished to proceed with the next one.
 let nextImageJob = (frame) => {
     currentImageJob.frame = frame
-    if (frame != undefined && frame != null && frame > 0) //Just in case
+    if (frame != undefined && frame != null && frame > 0) { //Just in case
+        document.getElementById('render-status').textContent = `Working on frame ${frame} of ${currentImageJob.total}.`
         SVGtoDesmos(`${currentImageJob.path}/svgFrames/svg_frame${String(frame).padStart(5, '0')}.svg`)
-    else
+    }
+    else {
         console.log('invalid frame '+frame)
+    }
 }
 
 let saveImage = (data) => {
@@ -211,7 +214,8 @@ let saveImage = (data) => {
         },
         body: JSON.stringify({
             uri: data,
-            baseName: currentImageJob.baseName,
+            projectName: currentImageJob.projectName,
+            folderBaseName: currentImageJob.folderBaseName,
             frame: currentImageJob.frame,
         })
     })
@@ -224,7 +228,7 @@ let saveImage = (data) => {
         if (status == 0) { //Assigned to a frame
             calculator.setBlank()
             console.log('Proceeding to work on frame '+data.assignedFrame)
-            document.getElementById('status').textContent = 'Working on frame '+data.assignedFrame+' of '+project.frames+' for '+project.baseName
+            document.getElementById('status').textContent = 'Working on frame '+data.assignedFrame+' of '+project.frames+' for '+project.projectName
             nextImageJob(data.assignedFrame)
         }
         else if (status == 1) { //Waiting for other people to finish
@@ -287,7 +291,7 @@ let uploadVideoFile = () => {
         //Create a form to be sent
         let form = new FormData()
         form.append('video', files[0]) //Only using the first file
-        form.append('name', projectName)
+        form.append('projectName', projectName)
 
         //Upload it
         fetch('/uploadVideo', {
@@ -299,21 +303,16 @@ let uploadVideoFile = () => {
             console.log(data)
 
             //The data has been processed, starting work now...
-            currentImageJob = {
-                baseName: data.name,
-                path: data.path,
-                frame: data.assignedFrame
-            }
             project = data.project
+            currentImageJob = {
+                projectName: data.name,
+                folderBaseName: project.folderBaseName,
+                path: data.path,
+                frame: data.assignedFrame,
+                total: project.frames
+            }
 
-            document.getElementById('status').textContent = 'Starting to work! Frame '+data.assignedFrame+' of '+project.frames+' for '+project.baseName
-
-            //Old job system:
-            // // Add jobs. If there are 0 workers, do all of them. If 1, do every other, and so on.
-            // for(let i = 1; i <= frames; i += workers + 1) {
-            //     // jobs.push(`${path}/svgFrames/svg_frame${String(i).padStart(5, '0')}.svg`)
-            //     jobs.push({ baseName: name, path: path, frame: i, svgFile: `${path}/svgFrames/svg_frame${String(i).padStart(5, '0')}.svg` })
-            // }
+            document.getElementById('status').textContent = 'Starting to work! Frame '+data.assignedFrame+' of '+project.frames+' for '+project.projectName
 
             //Start working!
             nextImageJob(data.assignedFrame)

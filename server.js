@@ -7,6 +7,11 @@ require('dotenv').config()
 const nodemailer = require('nodemailer')
 const CryptoJS = require("crypto-js")
 
+//Helper function to create random string (for folder names and confirmation codes)
+let randomString = (length) => {
+    return Array(length).fill(0).map(x => Math.random().toString(36).charAt(2)).join('')
+}
+
 let database = {
     projects: {},
     users: {}
@@ -102,15 +107,16 @@ app.use((req, res) => {
             return res.end()
         })
     }
+    //TODO: update createimage, delete db, update ALL of client code for folder/project/base stuff
     else if (req.method.toUpperCase() == 'POST') {
         if (req.url == '/createImage') {
             let uri = req.body.uri
             //Save the image locally
             let buffer = Buffer.from(uri.split(",")[1], 'base64')
             // fs.writeFileSync(`uploads/${req.body.baseName}/finalFrames/final_frame${String(req.body.frame).padStart(5, '0')}.png`, buffer
-            fs.writeFile(`uploads/${req.body.baseName}/finalFrames/final_frame${String(req.body.frame).padStart(5, '0')}.png`, buffer, error => {
+            fs.writeFile(`uploads/${req.body.folderBaseName}/finalFrames/final_frame${String(req.body.frame).padStart(5, '0')}.png`, buffer, error => {
                 if (error)  { 
-                    console.log('could not create file')
+                    console.log('could not create image file')
                     console.log(error)
                     res.writeHead(500, {
                         'Content-Type': 'application/json'
@@ -118,10 +124,10 @@ app.use((req, res) => {
                     return res.end(JSON.stringify({ code: 'Could not create file' }))
                  };
                 
-                console.log(`Saved frame ${req.body.frame} of ${req.body.baseName}.`)
+                console.log(`Saved frame ${req.body.frame} of ${req.body.projectName}.`)
 
                 //Creating a local project variable to help shorten variable names
-                project = database.projects[req.body.baseName]
+                project = database.projects[req.body.projectName]
 
                 //Update the database so this one is no longer needed
                 project.todo[req.body.frame] = 2
@@ -152,9 +158,10 @@ app.use((req, res) => {
                 }
                 if (complete == 2) {
                     //Complete some extra steps to finish the video
-                    console.log(`Project ${project.baseName} completed, creating final video file...`)
-                    console.log(`ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i uploads/${project.baseName}/finalFrames/final_frame%05d.png -i uploads/${project.baseName}/${project.fileName} -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p uploads/${project.baseName}/final_${project.fileName}`)
-                    exec(`ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i uploads/${project.baseName}/finalFrames/final_frame%05d.png -i uploads/${project.baseName}/${project.fileName} -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p uploads/${project.baseName}/final_${project.fileName}`, (error, stdout, stderr) => {
+                    console.log(`Project ${project.projectName} completed, creating final video file...`)
+                    let command = `ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i uploads/${project.projectName}/finalFrames/final_frame%05d.png -i uploads/${project.projectName}/${project.fileName} -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p uploads/${project.projectName}/final_${project.fileName}`
+                    console.log(command)
+                    exec(command, (error, stdout, stderr) => {
                         if (error) {
                             console.log(`FFMPEG-build error: ${error.message}`)
                             res.writeHead(500, {
@@ -190,9 +197,11 @@ app.use((req, res) => {
         else if (req.url == '/uploadVideo') {
             //Upload video, then process and send back svg data? (something like that)
             let fileName = req.files.video.name
+            //Old baseName was determined by the file's name (a custom field allows for customization)
             // let baseName = fileName.substring(0, fileName.indexOf('.'))
-            let baseName = req.body.name
-            let folderName = __dirname + '/uploads/'+baseName
+            let projectName = req.body.projectName
+            let folderBaseName = randomString(10) //Use a random string, not whatever they provide (could be dangerous!)
+            let folderName = __dirname + '/uploads/' + folderBaseName
 
             //Create a new folder for this video and its project
             try {
@@ -227,7 +236,7 @@ app.use((req, res) => {
                 }
                 //Success uploading, now let's do our magic on it and send back the SVGs
 
-                exec(`ffmpeg -i uploads/${baseName}/${fileName} uploads/${baseName}/frames/frame%05d.jpg`, (error, stdout, stderr) => {
+                exec(`ffmpeg -i uploads/${folderBaseName}/${fileName} uploads/${folderBaseName}/frames/frame%05d.jpg`, (error, stdout, stderr) => {
                     if (error) {
                         console.log(`FFMPEG-extract error: ${error.message}`)
                         res.writeHead(500, {
@@ -241,7 +250,7 @@ app.use((req, res) => {
                     console.log('FFMPEG-extract finished, now running PYTHON...')
 
                     //We are going to assume it worked. Now make the edited and svg frames
-                    exec(`python editAllFrames.py /uploads/${baseName} frame`, (py_error, py_stdout, py_stderr) => {
+                    exec(`python editAllFrames.py /uploads/${folderBaseName} frame`, (py_error, py_stdout, py_stderr) => {
                         if (error) {
                             console.log(`PYTHON error: ${py_error.message}`)
                             res.writeHead(500, {
@@ -259,9 +268,10 @@ app.use((req, res) => {
                             let frames = parseInt(py_stdout.substring(35))
 
                             //Create an entry for this process.
-                            database.projects[baseName] = {
-                                baseName: baseName,
+                            database.projects[projectName] = {
+                                projectName: projectName,
                                 fileName: fileName,
+                                folderBaseName: folderBaseName,
                                 frames: frames,
                                 fps: -1,
                                 resolution: -1,
@@ -270,15 +280,15 @@ app.use((req, res) => {
                             }
                             //Add todo frames (all of them). Todo indices start at 1, for ease of reading
                             for(let i = 1; i <= frames; i++) {
-                                database.projects[baseName].todo[i] = 0 //0 = not done, 1 = assigned, 2 = complete
+                                database.projects[projectName].todo[i] = 0 //0 = not done, 1 = assigned, 2 = complete
                             }
                             let initialAssignedFrame = 1 //So it can be changed dynamically, but normally just assign the first one
-                            database.projects[baseName].todo[initialAssignedFrame] = 1 //Assign the frame
+                            database.projects[projectName].todo[initialAssignedFrame] = 1 //Assign the frame
 
 
                             //Use ffprobe to get info about the file (framerate and resolution) for final video creation after all frames have been rendered
                             //After that, save.
-                            exec(`ffprobe uploads/${baseName}/${fileName} -hide_banner`, (fp_error, fp_stdout, fp_stderr) => {
+                            exec(`ffprobe uploads/${folderBaseName}/${fileName} -hide_banner`, (fp_error, fp_stdout, fp_stderr) => {
                                 let lines = fp_stderr.split('\n')
                                 let streamLine
                                 for(l in lines) {
@@ -292,8 +302,8 @@ app.use((req, res) => {
                                 let fpsLine = info[4]
                                 let resolutionLine = info[2]
                             
-                                database.projects[baseName].fps = fpsLine.split(' ')[1]
-                                database.projects[baseName].resolution = resolutionLine.split(' ')[1]
+                                database.projects[projectName].fps = fpsLine.split(' ')[1]
+                                database.projects[projectName].resolution = resolutionLine.split(' ')[1]
 
                                 
                                 saveDatabase() //Save the added project
@@ -304,7 +314,7 @@ app.use((req, res) => {
                             res.writeHead(201, {
                                 'Content-Type': 'application/json'
                             })
-                            res.end(JSON.stringify({ status: 'success', name: baseName, frames: frames, assignedFrame: initialAssignedFrame, path: `uploads/${baseName}`, workers: 0, project: database.projects[baseName] }))
+                            res.end(JSON.stringify({ status: 'success', name: projectName, frames: frames, assignedFrame: initialAssignedFrame, path: `uploads/${folderBaseName}`, workers: 0, project: database.projects[projectName] }))
                         }
                         else {
                             //An error occurred, return an error message
@@ -365,7 +375,7 @@ app.use((req, res) => {
                         email: req.body.email,
                         password: req.body.password,
                         verified: false,
-                        code: Math.random().toString(36).substring(7).toUpperCase()
+                        code: randomString(6).toUpperCase()
                     }
                     saveDatabase()
                     sendConfirmationEmail(database.users[req.body.email])
