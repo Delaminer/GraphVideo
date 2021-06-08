@@ -44,6 +44,13 @@ fs.readFile("./database.db", 'utf8', (error, data) => {
         try {
             data = JSON.parse(data)
             database = data //No arrays are in the database right now (only objects), so their prototypes don't need to be manually edited, allowing this easy assignment to be used.
+        
+            //Helper tool: clears projects from database while keeping users
+            let deleteProjects = false
+            if (deleteProjects) {
+                database.projects = {}
+                saveDatabase()
+            }
         }
         catch(error) {
             console.log('Database is corrupt, overwriting...')
@@ -73,13 +80,6 @@ let mailOptions = {
     subject: 'GraphVideo Confirmation Email',
     text: 'Thank you for signing up.'
 }
-// transporter.sendMail(mailOptions, function(error, info){
-//   if (error) {
-//     console.log(error)
-//   } else {
-//     console.log('Email sent: ' + info.response)
-//   }
-// })
 let sendConfirmationEmail = (user) => {
     mailOptions.to = user.email
     mailOptions.text = `Thank you ${user.username} for signing up for GraphVideo. Please enter the code ${user.code} on the website to verify your email address (${user.email}). Thank you.`
@@ -87,7 +87,7 @@ let sendConfirmationEmail = (user) => {
       if (error) {
         console.log(error)
       } else {
-        console.log('Email sent: ' + info.response)
+        console.log('Confirmation email (' + user.email + ') sent: ' + info.response)
       }
     })
 }
@@ -95,7 +95,17 @@ let sendConfirmationEmail = (user) => {
 app.use(express.json({ limit: '50mb', extended: true }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 app.use(fileUpload())
-
+app.get('/projects', (req, res) => {
+    //Return info about projects.
+    //This request does not require credentials, as a guest can video the community tab
+    //Just to prepare the code, I will be getting the credentials anyway
+    let credentials = JSON.parse(req.headers.credentials)
+    console.log(credentials)
+    res.writeHead(200, {
+        'Content-Type': 'application/json'
+    })
+    return res.end(JSON.stringify({projects: database.projects}))
+})
 app.use((req, res) => {
     if (req.method.toUpperCase() == 'GET') {
         req.url = req.url.replace(/%20/g,' ')
@@ -164,7 +174,7 @@ app.use((req, res) => {
                 if (complete == 2) {
                     //Complete some extra steps to finish the video
                     console.log(`Project ${project.projectName} completed, creating final video file...`)
-                    let command = `ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i uploads/${project.folderBaseName}/finalFrames/final_frame%05d.png -i uploads/${project.folderBaseName}/${project.fileName} -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p uploads/${project.folderBaseName}/final_${project.fileName}`
+                    let command = `ffmpeg -r ${project.fps} -f image2 -s ${project.resolution} -i "uploads/${project.folderBaseName}/finalFrames/final_frame%05d.png" -i "uploads/${project.folderBaseName}/${project.fileName}" -map 0:0 -map 1:1 -shortest -vcodec libx264 -crf 25 -pix_fmt yuv420p "uploads/${project.folderBaseName}/final_${project.fileName}"`
                     console.log(command)
                     exec(command, (error, stdout, stderr) => {
                         if (error) {
@@ -241,7 +251,7 @@ app.use((req, res) => {
                 }
                 //Success uploading, now let's do our magic on it and send back the SVGs
 
-                exec(`ffmpeg -i uploads/${folderBaseName}/${fileName} uploads/${folderBaseName}/frames/frame%05d.jpg`, (error, stdout, stderr) => {
+                exec(`ffmpeg -i "uploads/${folderBaseName}/${fileName}" "uploads/${folderBaseName}/frames/frame%05d.jpg"`, (error, stdout, stderr) => {
                     if (error) {
                         console.log(`FFMPEG-extract error: ${error.message}`)
                         res.writeHead(500, {
@@ -293,7 +303,7 @@ app.use((req, res) => {
 
                             //Use ffprobe to get info about the file (framerate and resolution) for final video creation after all frames have been rendered
                             //After that, save.
-                            exec(`ffprobe uploads/${folderBaseName}/${fileName} -hide_banner`, (fp_error, fp_stdout, fp_stderr) => {
+                            exec(`ffprobe "uploads/${folderBaseName}/${fileName}" -hide_banner`, (fp_error, fp_stdout, fp_stderr) => {
                                 let lines = fp_stderr.split('\n')
                                 let streamLine
                                 for(l in lines) {

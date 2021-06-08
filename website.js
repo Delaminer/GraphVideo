@@ -385,6 +385,8 @@ document.getElementById('project-video-upload-file').onchange = () => {
 
 document.getElementById('project-video-confirm-start').onclick = () => {
 
+    document.getElementById('render-status').textContent = `Waiting for server to pre-process frames...`
+
     document.getElementById('project-video-confirm').style.display = 'none'
     document.getElementById('project-video-render').style.display = 'block'
 

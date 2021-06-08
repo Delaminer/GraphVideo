@@ -8,7 +8,34 @@ var loadCommunity = (credentials) => {
         //Sign in was a success
 
         document.getElementById('community-welcome').textContent = 'Welcome, '+USER_NAME+'!'
+        
+        //Get list of projects to display
+        fetch('/projects', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'credentials': JSON.stringify({username:USER_NAME,email:USER_EMAIL,password:USER_PASSWORD})
+            }
+            // body: JSON.stringify({
+            //     purpose: 'ynot',
+            //     other: 'heyo'
+            // })
+        })
+        .then(response => response.json())
+        .then(data =>  {
+            // console.log('Uhhhh '+JSON.stringify(data))
+            let parent = document.getElementById('community-projects')
+            //Delete old children first
+            // for(let child in parent.childNodes) {
+            //     parent.removeChild(child)
+            // }
 
+            for(let project in data.projects) {
+                let projectElement = document.createElement('p')
+                projectElement.textContent = `Project ${data.projects[project].projectName} has ${data.projects[project].frames} frames.`
+                parent.appendChild(projectElement)
+            }
+        })
     }
     else {
         console.log('not found')
@@ -30,7 +57,6 @@ let signOut = () => {
     localStorage.setItem('username', '')
     localStorage.setItem('email', '')
     localStorage.setItem('password', '')
-
 }
 
 document.getElementById('community-signout').onclick = () => {

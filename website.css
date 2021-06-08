@@ -15,8 +15,8 @@ button { user-select: none; }
 input.error { border-color: rgb(255, 0, 0) !important; }
 .hint { font-style: italic; margin: 0; color: gray; }
 .goback { margin: 0; padding: 0; width: 25%; }
-.left { float:left }
-.right { float: right; }
+.left { float:left !important; }
+.right { float: right !important;}
 
 /* Home tab */
 .home {
@@ -305,7 +305,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     border-radius: 30px;
 }
 .community ul.nav li:hover {
-    background-color: aqua;
+    background-color: rgb(128, 125, 90);
     cursor: pointer;
 }
 .community ul.nav li.title {
