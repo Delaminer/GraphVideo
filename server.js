@@ -16,29 +16,35 @@ let database = {
     projects: {},
     users: {}
 }
+
+//Creates a nonencrypted database.json file as well as the encrypted database.db file, so the data can be examined for development/debugging
+let debugDatabase = true
+
 //Function to save the database whenever
 let saveDatabase = () => {
     //Decrypt the data
     let encryptedDatabase = CryptoJS.AES.encrypt(JSON.stringify(database), process.env.encrypt_key).toString()
-    fs.writeFile("database.db", encryptedDatabase, function(err) {
+    fs.writeFile('database.db', encryptedDatabase, function(err) {
         if (err) {
-            console.log("Unable to save database: "+err)
+            console.log('Unable to save database: ' + err)
         }
     })
-    fs.writeFile("database.json", JSON.stringify(database, null, 4), function(err) {
-        if (err) {
-            console.log("Unable to save database: "+err)
-        }
-    })
+    if (debugDatabase) {
+        fs.writeFile('database.json', JSON.stringify(database, null, 4), function(err) {
+            if (err) {
+                console.log('Unable to save JSON database: '+err)
+            }
+        })
+    }
 }
 //Load database
-fs.readFile("./database.db", 'utf8', (error, data) => {
+fs.readFile('database.db', 'utf8', (error, data) => {
     if (error) {
-        console.log("No saved database found. Creating a new one.")
+        console.log('No saved database found. Creating a new one.')
         saveDatabase() //Create a blank file
     }
     else {
-        console.log("Using saved database.")
+        console.log('Using saved database.')
         //Decrypt the data
         data  = CryptoJS.AES.decrypt(data, process.env.encrypt_key).toString(CryptoJS.enc.Utf8) 
         try {
@@ -51,6 +57,22 @@ fs.readFile("./database.db", 'utf8', (error, data) => {
                 database.projects = {}
                 saveDatabase()
             }
+
+            //Helper tool: overwrites encrypted data with modifiable JSON data
+            let overrideData = false
+            if (overrideData) {
+                fs.readFile('database.json', 'utf8', (error, jsonData) => {
+                    if (!error) {
+                        try {
+                            database = JSON.parse(jsonData)
+                            saveDatabase()
+                            return
+                        }
+                        catch(error) { }
+                    }
+                    console.log('Failed to overwrite database with JSON data.')
+                })
+            }
         }
         catch(error) {
             console.log('Database is corrupt, overwriting...')
@@ -59,10 +81,10 @@ fs.readFile("./database.db", 'utf8', (error, data) => {
     }
 })
 
-let validUser = (email, password) => {
+let validUser = (email, password, mustBeVerified) => {
     let existingUser = database.users[email]
     if (existingUser != undefined && existingUser != null) { //Check if it actually exists
-        return password == existingUser.password
+        return (password == existingUser.password) && (!mustBeVerified || existingUser.verified)
     }
     return false
 }
@@ -95,6 +117,8 @@ let sendConfirmationEmail = (user) => {
 app.use(express.json({ limit: '50mb', extended: true }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 app.use(fileUpload())
+
+//Future of all requests: get/post
 app.get('/projects', (req, res) => {
     //Return info about projects.
     //This request does not require credentials, as a guest can video the community tab
@@ -106,6 +130,7 @@ app.get('/projects', (req, res) => {
     })
     return res.end(JSON.stringify({projects: database.projects}))
 })
+
 app.use((req, res) => {
     if (req.method.toUpperCase() == 'GET') {
         req.url = req.url.replace(/%20/g,' ')
@@ -122,9 +147,17 @@ app.use((req, res) => {
             return res.end()
         })
     }
-    //TODO: update createimage, delete db, update ALL of client code for folder/project/base stuff
     else if (req.method.toUpperCase() == 'POST') {
         if (req.url == '/createImage') {
+            let credentials = JSON.parse(req.headers.credentials)
+            if (!validUser(credentials.email, credentials.password, true)) {
+                res.writeHead(403, {
+                    'Content-Type': 'application/json'
+                })
+                return res.end(JSON.stringify({ code: '/createImage: Invalid credentials' }))
+            }
+
+
             let uri = req.body.uri
             //Save the image locally
             let buffer = Buffer.from(uri.split(",")[1], 'base64')
@@ -210,6 +243,13 @@ app.use((req, res) => {
 
         }
         else if (req.url == '/uploadVideo') {
+            let credentials = JSON.parse(req.headers.credentials)
+            if (!validUser(credentials.email, credentials.password, true)) {
+                res.writeHead(403, {
+                    'Content-Type': 'application/json'
+                })
+                return res.end(JSON.stringify({ code: '/createImage: Invalid credentials' }))
+            }
             //Upload video, then process and send back svg data? (something like that)
             let fileName = req.files.video.name
             //Old baseName was determined by the file's name (a custom field allows for customization)
@@ -350,7 +390,7 @@ app.use((req, res) => {
             // it just validates the current credentials are correct, so it will use these for all future API calls.
 
             // The validUser method here will be used in all other API calls
-            if (validUser(req.body.email, req.body.password)) {
+            if (validUser(req.body.email, req.body.password, false)) {
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 })

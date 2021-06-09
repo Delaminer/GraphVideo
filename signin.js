@@ -22,24 +22,28 @@ let signIn = (credentials) => {
     loadCommunity(credentials)
 }
 
+let serverSignIn = (email, password, callback) => {
+    fetch('/signin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => callback(data))
+}
+
 let autoSignIn = () => {
     let username = localStorage.getItem('username')
     let email = localStorage.getItem('email')
     let password = localStorage.getItem('password')
     if (username != null && email != null && password != null && username != '') {
         //Auto sign in
-        fetch('/signin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
+        serverSignIn(email, password, data => {
             if (data.success) {
                 //Successfully signed in
                 signIn(data)
@@ -146,18 +150,7 @@ document.getElementById('signin-form-button').onclick = () => {
     let password = document.getElementById('signin-form-password').value
     let hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64)
 
-    fetch('/signin', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: email,
-            password: hashedPassword
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
+    serverSignIn(email, hashedPassword, data => {
         if (data.success) {
             //Successfully signed in
             signIn(data)

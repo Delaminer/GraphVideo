@@ -210,7 +210,8 @@ let saveImage = (data) => {
     fetch('/createImage', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'credentials': JSON.stringify({ username: USER_NAME, email: USER_EMAIL, password: USER_PASSWORD })
         },
         body: JSON.stringify({
             uri: data,
@@ -292,10 +293,14 @@ let uploadVideoFile = () => {
         let form = new FormData()
         form.append('video', files[0]) //Only using the first file
         form.append('projectName', projectName)
-
+        
         //Upload it
         fetch('/uploadVideo', {
             method: 'POST',
+            headers: {
+                //DO NOT SPECIFY THIS CONTENT-TYPE AS JSON (it is not JSON)
+                'credentials': JSON.stringify({ username: USER_NAME, email: USER_EMAIL, password: USER_PASSWORD })
+            },
             body: form
         })
         .then(response => response.json())

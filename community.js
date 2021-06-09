@@ -14,7 +14,7 @@ var loadCommunity = (credentials) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': JSON.stringify({username:USER_NAME,email:USER_EMAIL,password:USER_PASSWORD})
+                'credentials': JSON.stringify({ username: USER_NAME, email: USER_EMAIL, password: USER_PASSWORD })
             }
             // body: JSON.stringify({
             //     purpose: 'ynot',

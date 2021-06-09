@@ -9,12 +9,17 @@ email=youremail@email.com
 password=youremailpassword
 encrypt_key=super_secret_key
 ```
-Your email account security settings may need to be lessened in order for emails to be sent through SMTP.
+Your email account security settings may need to be lessened in order for emails to be sent through SMTP. [See this page how.](https://support.google.com/accounts/answer/6010255?hl=en#zippy=)
+
+Install Node libraries with
+```
+npm i
+```
 
 ## Use
 The server needs to be started with
 ```
-node server.js
+npm start
 ```
 Then go to http://localhost:3000/website.html
 
