@@ -24,14 +24,11 @@ let signIn = (credentials) => {
 
 let serverSignIn = (email, password, callback) => {
     fetch('/signin', {
-        method: 'POST',
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password
-        })
+            'Content-Type': 'application/json',
+            'credentials': JSON.stringify({ email: email, password: password })
+        }
     })
     .then(response => response.json())
     .then(data => callback(data))

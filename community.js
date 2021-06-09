@@ -14,22 +14,22 @@ var loadCommunity = (credentials) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': JSON.stringify({ username: USER_NAME, email: USER_EMAIL, password: USER_PASSWORD })
+                'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
             }
-            // body: JSON.stringify({
-            //     purpose: 'ynot',
-            //     other: 'heyo'
-            // })
         })
         .then(response => response.json())
         .then(data =>  {
-            // console.log('Uhhhh '+JSON.stringify(data))
-            let parent = document.getElementById('community-projects')
-            //Delete old children first
-            // for(let child in parent.childNodes) {
-            //     parent.removeChild(child)
-            // }
+            //Display project information on community page
 
+            //Parent element this data will be presented on
+            let parent = document.getElementById('community-projects')
+            
+            //Delete old children first
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+
+            //Add the projects
             for(let project in data.projects) {
                 let projectElement = document.createElement('p')
                 projectElement.textContent = `Project ${data.projects[project].projectName} has ${data.projects[project].frames} frames.`
@@ -38,7 +38,7 @@ var loadCommunity = (credentials) => {
         })
     }
     else {
-        console.log('not found')
+        console.log('Could not load community. You are not signed in.')
     }
 
 }

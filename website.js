@@ -207,11 +207,11 @@ let saveImage = (data) => {
         return
     }
     //Send screenshot URI to server to save it. In the future, this will expect a response confirming it saved, so we can send them the next image.
-    fetch('/createImage', {
+    fetch('/image', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'credentials': JSON.stringify({ username: USER_NAME, email: USER_EMAIL, password: USER_PASSWORD })
+            'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
         },
         body: JSON.stringify({
             uri: data,
@@ -295,11 +295,11 @@ let uploadVideoFile = () => {
         form.append('projectName', projectName)
         
         //Upload it
-        fetch('/uploadVideo', {
+        fetch('/video', {
             method: 'POST',
             headers: {
                 //DO NOT SPECIFY THIS CONTENT-TYPE AS JSON (it is not JSON)
-                'credentials': JSON.stringify({ username: USER_NAME, email: USER_EMAIL, password: USER_PASSWORD })
+                'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
             },
             body: form
         })
