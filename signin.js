@@ -4,9 +4,6 @@ let redirect = (location) => {
     clickElement.click()
 }
 
-//Simple script to sign in to the website, storing the email/password in a variable so it can be used in API requests.
-//TODO: Add signout/profile settings
-
 let signIn = (credentials) => {    
     //Update global variables
     USER_NAME = credentials.username
@@ -17,7 +14,7 @@ let signIn = (credentials) => {
     localStorage.setItem('email', credentials.email)
     localStorage.setItem('password', credentials.password)
 
-    redirect('/community')
+    redirect('/')
 }
 
 let serverSignIn = (email, password, callback) => {
@@ -31,37 +28,6 @@ let serverSignIn = (email, password, callback) => {
     .then(response => response.json())
     .then(data => callback(data))
 }
-
-let autoSignIn = () => {
-    let username = localStorage.getItem('username')
-    let email = localStorage.getItem('email')
-    let password = localStorage.getItem('password')
-    if (username != null && email != null && password != null && username != '') {
-        //Auto sign in
-        serverSignIn(email, password, data => {
-            if (data.success) {
-                //Successfully signed in
-                signIn(data)
-            }
-            else {
-                document.getElementById('account-signin').style.display = 'block'
-                document.getElementById('account-register').style.display = 'none'
-                document.getElementById('home-page').style.display = 'none'
-                document.getElementById('community-page').style.display = 'none'
-                document.getElementById('signin-page').style.display = 'block'
-            }
-        })
-    }
-    else {
-        document.getElementById('account-signin').style.display = 'block'
-        document.getElementById('account-register').style.display = 'none'
-
-        document.getElementById('home-page').style.display = 'none'
-        document.getElementById('community-page').style.display = 'none'
-        document.getElementById('signin-page').style.display = 'block'
-    }
-}
-autoSignIn()
 
 //Go to register page from signin page
 document.getElementById('signin-goto-register').onclick = () => {

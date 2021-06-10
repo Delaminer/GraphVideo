@@ -140,8 +140,8 @@ app.get('/', (req, res) => {
     return load('./community.html', req, res)
 })
 
-app.get('/account', (req, res) => {
-    return load('./account.html', req, res)
+app.get('/signin', (req, res) => {
+    return load('./signin.html', req, res)
 })
 app.get('/project', (req, res) => {
     return load('./project.html', req, res)

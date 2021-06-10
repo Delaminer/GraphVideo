@@ -7,8 +7,22 @@ let redirect = (location) => {
 let loadSignedInContent = () => {
     document.getElementById('community-project').textContent = 'Start a Project'
     document.getElementById('community-signin').textContent = 'Sign Out'
+    document.getElementById('community-signin').onclick = () => { signOut() }
     document.getElementById('goto-profile').style.display = 'block'
     document.getElementById('community-welcome').textContent = 'Welcome, ' + USER_NAME + '!'
+    document.getElementById('community-project').onclick = () => {
+        redirect('/project')
+    }
+}
+let loadGuestContent = () => {
+    document.getElementById('community-project').textContent = 'Sign in to start a project'
+    document.getElementById('community-signin').textContent = 'Sign In'
+    document.getElementById('community-signin').onclick = () => { signIn() }
+    document.getElementById('goto-profile').style.display = 'none'
+    document.getElementById('community-welcome').textContent = 'Welcome, Guest!'
+    document.getElementById('community-project').onclick = () => {
+        redirect('/signin')
+    }
 }
 
 let autoSignIn = () => {
@@ -33,57 +47,47 @@ let autoSignIn = () => {
                 USER_PASSWORD = password
                 loadSignedInContent()
             }
+            else {
+                loadGuestContent()
+            }
         })
+    }
+    else {
+        loadGuestContent()
     }
 }
 autoSignIn()
 
 //Get community project info
-var loadCommunity = (credentials) => {
+var loadCommunity = () => {
 
-    //console.log(JSON.stringify(credentials))
+    fetch('/projects', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data =>  {
+        //Display project information on community page
 
-    //if (USER_EMAIL != null && USER_NAME != null && USER_PASSWORD != null
-      //  && USER_EMAIL != undefined && USER_NAME != undefined && USER_PASSWORD != undefined) {
-        //Sign in was a success
-
-        // document.getElementById('community-welcome').textContent = 'Welcome, '+USER_NAME+'!'
+        //Parent element this data will be presented on
+        let parent = document.getElementById('community-projects')
         
-        //Get list of projects to display
-        fetch('/projects', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-                // 'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
-            }
-        })
-        .then(response => response.json())
-        .then(data =>  {
-            //Display project information on community page
+        //Delete old children first
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
 
-            //Parent element this data will be presented on
-            let parent = document.getElementById('community-projects')
-            
-            //Delete old children first
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
-            }
-
-            //Add the projects
-            for(let project in data.projects) {
-                let projectElement = document.createElement('p')
-                projectElement.textContent = `Project ${data.projects[project].projectName} has ${data.projects[project].frames} frames.`
-                parent.appendChild(projectElement)
-            }
-        })
-    // }
-    // else {
-    //     console.log('Could not load community. You are not signed in.')
-    // }
-
+        //Add the projects
+        for(let project in data.projects) {
+            let projectElement = document.createElement('p')
+            projectElement.textContent = `Project ${data.projects[project].projectName} has ${data.projects[project].frames} frames.`
+            parent.appendChild(projectElement)
+        }
+    })
 }
-
-
+loadCommunity()
 
 let signOut = () => {
 
@@ -98,19 +102,6 @@ let signOut = () => {
 
     redirect('/signin')
 }
-
-document.getElementById('community-signin').onclick = () => {
-    signOut()
-}
-document.getElementById('community-project').onclick = () => {
-    
-    document.getElementById('project-page').style.display = 'block'
-    document.getElementById('community-page').style.display = 'none'
-
-    document.getElementById('project-video').style.display = 'block'
-    document.getElementById('project-image').style.display = 'none'
-
-    document.getElementById('project-video-upload').style.display = 'block'
-    document.getElementById('project-video-confirm').style.display = 'none'
-    document.getElementById('project-video-render').style.display = 'none'
+let signIn = () => {
+    redirect('/signin')
 }
