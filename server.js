@@ -124,6 +124,22 @@ app.use(express.json({ limit: '50mb', extended: true }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 app.use(fileUpload())
 
+let load = (file, req, res) => {
+    fs.readFile(file, function(err, data) {
+        if (err) {
+            res.writeHead(404, {'Content-Type': 'text/html'})
+            return res.end("404 error: file not found")
+        }
+        res.writeHead(200, {'Content-Type':'text/html'})
+        res.write(data)
+        return res.end()
+    })
+}
+
+app.get('/', (req, res) => {
+    return load('./website.html')
+})
+
 app.get('/signin', (req, res) => {
     let credentials = JSON.parse(req.headers.credentials)
     if (validUser(credentials.email, credentials.password, false)) {
@@ -475,6 +491,7 @@ app.use((req, res) => {
     }
 })
 
-app.listen(3000, () => {
-  console.log('listening on *:3000')
+let port = 80
+app.listen(port, () => {
+  console.log('listening on *:'+port)
 })
