@@ -21,7 +21,7 @@ The server needs to be started with
 ```
 npm start
 ```
-Then go to http://localhost:3000/website.html
+Then go to http://localhost
 
 ## Future changes
 - Share projects webpage (which would use the signin accounts)

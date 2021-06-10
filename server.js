@@ -137,10 +137,20 @@ let load = (file, req, res) => {
 }
 
 app.get('/', (req, res) => {
-    return load('./website.html')
+    return load('./community.html', req, res)
 })
 
-app.get('/signin', (req, res) => {
+app.get('/account', (req, res) => {
+    return load('./account.html', req, res)
+})
+app.get('/project', (req, res) => {
+    return load('./project.html', req, res)
+})
+app.get('/community', (req, res) => {
+    return load('./community.html', req, res)
+})
+
+app.get('/login', (req, res) => {
     let credentials = JSON.parse(req.headers.credentials)
     if (validUser(credentials.email, credentials.password, false)) {
         res.writeHead(200, {

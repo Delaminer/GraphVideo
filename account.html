@@ -1,0 +1,56 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/md5.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/md5-min.js"></script> -->
+    <!-- <script data-main="scripts/main" src="scripts/require.js"></script> -->
+    <title>GraphVideo</title>
+    <link href="./website.css" type="text/css" rel="stylesheet" media="screen"/>
+    <script type="text/javascript">
+    //Global variables, these are assigned when you sign in
+        var USER_EMAIL
+        var USER_NAME
+        var USER_PASSWORD
+    </script>
+</head>
+<body>
+    <div class="account" id="signin-page" style="display: none;">
+        <div class="signin" id="account-signin" style="display: block;">
+            <h1 class="center">Sign In</h1>
+            <p class="center hint">Please sign in to continue</p>
+            <div class="form" id="signin-form">
+                <p>Email</p>
+                <input type="text" id="signin-form-email" autofocus>
+                <p>Password</p>
+                <input type="password" id="signin-form-password">
+                <button class="big-button" id="signin-form-button">Sign In</button>
+                <div class="bottom">
+                    <p class="center pointer" id="signin-goto-register">Create an Account</p>
+                    <p class="center pointer" id="signin-goto-forgot">Forgot password?</p>
+                </div>
+            </div>
+        </div>
+        <div class="register" id="account-register" style="display: none;">
+            <div class="form" id="register-form">
+                <h1 class="center">Create an Account</h1>
+                <p>Display Name</p>
+                <input type="text" id="register-form-username" autofocus>
+                <p>Email</p>
+                <input type="text" id="register-form-email">
+                <p>Password</p>
+                <input type="password" id="register-form-password">
+                <strong>Note: The security on this website is not very strong, so do not use a password you use frequently!</strong>
+                <p>Confirm Password</p>
+                <input type="password" id="register-form-confirm-password">
+                <button class="big-button" id="register-form-button">Create Account</button>
+                <p class="center pointer" id="register-goto-signin">Or sign in instead</p>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="./community.js"></script> -->
+    <script src="./signin.js"></script>
+    <!-- <script src="./website.js"></script> -->
+</body>
+</html>

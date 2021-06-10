@@ -1,20 +1,60 @@
-//Run this script only when asked to (because credentials from signin.js need to be found beforehand)
+let clickElement = document.createElement('a')
+let redirect = (location) => {
+    clickElement.href = location
+    clickElement.click()
+}
+
+let loadSignedInContent = () => {
+    document.getElementById('community-project').textContent = 'Start a Project'
+    document.getElementById('community-signin').textContent = 'Sign Out'
+    document.getElementById('goto-profile').style.display = 'block'
+    document.getElementById('community-welcome').textContent = 'Welcome, ' + USER_NAME + '!'
+}
+
+let autoSignIn = () => {
+    let username = localStorage.getItem('username')
+    let email = localStorage.getItem('email')
+    let password = localStorage.getItem('password')
+    if (username != null && email != null && password != null && username != '') {
+        //Auto sign in
+        fetch('/login', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'credentials': JSON.stringify({ email: email, password: password })
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                //Successfully signed in
+                USER_NAME = username
+                USER_EMAIL = email
+                USER_PASSWORD = password
+                loadSignedInContent()
+            }
+        })
+    }
+}
+autoSignIn()
+
+//Get community project info
 var loadCommunity = (credentials) => {
 
-    console.log(JSON.stringify(credentials))
+    //console.log(JSON.stringify(credentials))
 
-    if (USER_EMAIL != null && USER_NAME != null && USER_PASSWORD != null
-        && USER_EMAIL != undefined && USER_NAME != undefined && USER_PASSWORD != undefined) {
+    //if (USER_EMAIL != null && USER_NAME != null && USER_PASSWORD != null
+      //  && USER_EMAIL != undefined && USER_NAME != undefined && USER_PASSWORD != undefined) {
         //Sign in was a success
 
-        document.getElementById('community-welcome').textContent = 'Welcome, '+USER_NAME+'!'
+        // document.getElementById('community-welcome').textContent = 'Welcome, '+USER_NAME+'!'
         
         //Get list of projects to display
         fetch('/projects', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
+                'Content-Type': 'application/json'
+                // 'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
             }
         })
         .then(response => response.json())
@@ -36,18 +76,16 @@ var loadCommunity = (credentials) => {
                 parent.appendChild(projectElement)
             }
         })
-    }
-    else {
-        console.log('Could not load community. You are not signed in.')
-    }
+    // }
+    // else {
+    //     console.log('Could not load community. You are not signed in.')
+    // }
 
 }
 
+
+
 let signOut = () => {
-    document.getElementById('signin-page').style.display = 'block'
-    document.getElementById('community-page').style.display = 'none'
-    document.getElementById('account-signin').style.display = 'block'
-    document.getElementById('account-register').style.display = 'none'
 
     //Clear global signin variables
     USER_NAME = null
@@ -57,9 +95,11 @@ let signOut = () => {
     localStorage.setItem('username', '')
     localStorage.setItem('email', '')
     localStorage.setItem('password', '')
+
+    redirect('/signin')
 }
 
-document.getElementById('community-signout').onclick = () => {
+document.getElementById('community-signin').onclick = () => {
     signOut()
 }
 document.getElementById('community-project').onclick = () => {

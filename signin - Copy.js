@@ -1,13 +1,15 @@
-let clickElement = document.createElement('a')
-let redirect = (location) => {
-    clickElement.href = location
-    clickElement.click()
-}
-
 //Simple script to sign in to the website, storing the email/password in a variable so it can be used in API requests.
 //TODO: Add signout/profile settings
 
-let signIn = (credentials) => {    
+document.getElementById('signin-page').style.display = 'none'
+document.getElementById('community-page').style.display = 'none'
+document.getElementById('home-page').style.display = 'block'
+
+let signIn = (credentials) => {
+    document.getElementById('home-page').style.display = 'none'
+    document.getElementById('signin-page').style.display = 'none'
+    document.getElementById('community-page').style.display = 'block'
+    
     //Update global variables
     USER_NAME = credentials.username
     USER_EMAIL = credentials.email
@@ -17,11 +19,11 @@ let signIn = (credentials) => {
     localStorage.setItem('email', credentials.email)
     localStorage.setItem('password', credentials.password)
 
-    redirect('/community')
+    loadCommunity(credentials)
 }
 
 let serverSignIn = (email, password, callback) => {
-    fetch('/login', {
+    fetch('/signin', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

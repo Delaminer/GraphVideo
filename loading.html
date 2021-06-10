@@ -1,0 +1,37 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/md5.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/md5-min.js"></script> -->
+    <!-- <script data-main="scripts/main" src="scripts/require.js"></script> -->
+    <title>GraphVideo</title>
+    <link href="./website.css" type="text/css" rel="stylesheet" media="screen"/>
+    <script type="text/javascript">
+    //Global variables, these are assigned when you sign in
+        var USER_EMAIL = null
+        var USER_NAME = null
+        var USER_PASSWORD = null
+    </script>
+</head>
+<body>
+    <a id="goto-account" href="/account" style="display: none;"></a>
+    <a id="goto-project" href="/project" style="display: none;"></a>
+    <a id="goto-community" href="/community" style="display: none;"></a>
+    <div class="home" id="home-page" style="display: block;">
+        <div class="logo">
+            <h1>Graph Video</h1>
+            <p>Please wait...</p>
+            <svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice">
+                <path fill="none" stroke="black" d="M 1 5 A 4 4 0 1 1 9 5" stroke-linecap="round">
+                    <animateTransform attributeName="transform" type="rotate" dur="1s" from="0 5 5" to="360 5 5" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+    </div>
+    <!-- <script src="./community.js"></script> -->
+    <!-- <script src="./signin.js"></script> -->
+    <!-- <script src="./website.js"></script> -->
+</body>
+</html>

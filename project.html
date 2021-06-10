@@ -1,0 +1,121 @@
+<!DOCTYPE html5>
+<html>
+<head>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/md5.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/md5-min.js"></script> -->
+    <!-- <script data-main="scripts/main" src="scripts/require.js"></script> -->
+    <title>GraphVideo</title>
+    <link href="./website.css" type="text/css" rel="stylesheet" media="screen"/>
+    <script type="text/javascript">
+    //Global variables, these are assigned when you sign in
+        var USER_EMAIL = null
+        var USER_NAME = null
+        var USER_PASSWORD = null
+    </script>
+</head>
+<body>
+    <div class="home" id="home-page" style="display: block;">
+        <div class="logo">
+            <h1>Graph Video</h1>
+            <p>Please wait...</p>
+            <svg viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice">
+                <path fill="none" stroke="black" d="M 1 5 A 4 4 0 1 1 9 5" stroke-linecap="round">
+                    <animateTransform attributeName="transform" type="rotate" dur="1s" from="0 5 5" to="360 5 5" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+        <!-- <p>Test</p> -->
+        <!-- <div class="background"></div> -->
+    </div>
+    <div class="account" id="signin-page" style="display: none;">
+        <div class="signin" id="account-signin" style="display: block;">
+            <h1 class="center">Sign In</h1>
+            <p class="center hint">Please sign in to continue</p>
+            <div class="form" id="signin-form">
+                <p>Email</p>
+                <input type="text" id="signin-form-email" autofocus>
+                <p>Password</p>
+                <input type="password" id="signin-form-password">
+                <button class="big-button" id="signin-form-button">Sign In</button>
+                <div class="bottom">
+                    <p class="center pointer" id="signin-goto-register">Create an Account</p>
+                    <p class="center pointer" id="signin-goto-forgot">Forgot password?</p>
+                </div>
+            </div>
+        </div>
+        <div class="register" id="account-register" style="display: none;">
+            <div class="form" id="register-form">
+                <h1 class="center">Create an Account</h1>
+                <p>Display Name</p>
+                <input type="text" id="register-form-username" autofocus>
+                <p>Email</p>
+                <input type="text" id="register-form-email">
+                <p>Password</p>
+                <input type="password" id="register-form-password">
+                <strong>Note: The security on this website is not very strong, so do not use a password you use frequently!</strong>
+                <p>Confirm Password</p>
+                <input type="password" id="register-form-confirm-password">
+                <button class="big-button" id="register-form-button">Create Account</button>
+                <p class="center pointer" id="register-goto-signin">Or sign in instead</p>
+            </div>
+        </div>
+    </div>
+    <div class="project" id="project-page" style="display: none;">
+        <div class="card">
+            <p class="goback pointer" id='project-goback'>Go back</p>
+            <h1 class="center">Create a Graph</h1>
+            <div class="type-tab">
+                <button id="project-type-button-video" class="selected">Video</button>
+                <button id="project-type-button-image" >Image</button>
+            </div>
+            <div id="project-video" class="video">
+                <div id="project-video-upload" class="upload" style="display: block;">
+                    <button id="project-video-upload-button">Upload a file here</button>
+                    <input type="file" id="project-video-upload-file" style="display: none;">
+                </div>
+                <div id="project-video-confirm" class="confirm" style="display: none;">
+                    <div class="dialogue">
+                        <span id="project-video-confirm-dialogue-text">File video.mp4 selected</span>
+                        <button id="project-video-confirm-dialogue-button">Use a different file</button>
+                    </div>
+                    <div class="name">
+                        <p>Project Name</p>
+                        <input type="text" id="project-video-confirm-name-input">
+                    </div>
+                    <button id="project-video-confirm-start" class="start">Start</button>
+                </div>
+                <div id="project-video-render" class="render" style="display: none;">
+                    <p id="render-status">Working on frame 3 of 333.</p>
+                    <div id="video-calculator" class="calculator"></div>
+                </div>
+            </div>
+            <div id="project-image" style="display: none;">
+                <input type="file" id="project-image-upload-file">
+                <button id="useFile" class="useFile">Use File</button>
+                <p id="status">Please input an image file to begin...</p>
+                <div id="image-calculator" class="calculator"></div>
+            </div>
+        </div>
+    </div>
+    <div class="community" id="community-page" style="display: none;">
+        <ul class="nav">
+            <li class="title">Graph Video</li>
+            <li id="community-project">Start a Project</li>
+            <li class="right" id="community-signout">Sign Out</li>
+            <li class="right">Profile</li>
+        </ul>
+        <div class="content">
+            <h1 id="community-welcome">Welcome, user!</h1>
+            <!-- <button id="community-signout">Sign Out</button> -->
+            <!-- <button id="community-project">Start a Project</button> -->
+            <p>Here are other videos people have made!</p>
+            <div id="community-projects"></div>
+        </div>
+    </div>
+    <script src="./community.js"></script>
+    <script src="./signin.js"></script>
+    <script src="./website.js"></script>
+</body>
+</html>
