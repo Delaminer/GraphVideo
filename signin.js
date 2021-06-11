@@ -4,7 +4,7 @@ let redirect = (location) => {
     clickElement.click()
 }
 
-let signIn = (credentials) => {    
+let signIn = (credentials) => {
     //Update global variables
     USER_NAME = credentials.username
     USER_EMAIL = credentials.email
@@ -14,7 +14,15 @@ let signIn = (credentials) => {
     localStorage.setItem('email', credentials.email)
     localStorage.setItem('password', credentials.password)
 
-    redirect('/')
+    if (credentials.verified) {
+        redirect('/')
+    }
+    else {
+        //Have to verify first!
+        document.getElementById('account-signin').style.display = 'none'
+        document.getElementById('account-register').style.display = 'none'
+        document.getElementById('account-verify').style.display = 'block'
+    }
 }
 
 let serverSignIn = (email, password, callback) => {
@@ -33,12 +41,14 @@ let serverSignIn = (email, password, callback) => {
 document.getElementById('signin-goto-register').onclick = () => {
     document.getElementById('account-signin').style.display = 'none'
     document.getElementById('account-register').style.display = 'block'
+    document.getElementById('account-verify').style.display = 'none'
 }
 
 //Go to signin page from register page
 document.getElementById('register-goto-signin').onclick = () => {
     document.getElementById('account-signin').style.display = 'block'
     document.getElementById('account-register').style.display = 'none'
+    document.getElementById('account-verify').style.display = 'none'
 }
 
 //Add input cycles for easy user input. This allows the Enter button to be used to move from field to field, which many users (including me) find convenient.
@@ -221,4 +231,43 @@ document.getElementById('register-form-button').onclick = () => {
             }
         })
     }
+}
+
+//Attempt verify
+document.getElementById('verify-button').onclick = () => {
+    let verifyCode = document.getElementById('verify-code').value
+
+    if (verifyCode.length > 0) {
+        fetch('/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'credentials': JSON.stringify({ email: email, password: password })
+            },
+            body: JSON.stringify({ code: verifyCode })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('verify is '+JSON.stringify(data))
+        })
+    }
+
+    serverSignIn(email, hashedPassword, data => {
+        if (data.success) {
+            //Successfully signed in
+            signIn(data)
+        }
+        else {
+            //Failed to sign in
+            let form = document.getElementById('signin-form')
+            if (form.error == undefined || form.error == null || form.error == false) {
+                let errorMessage = document.createElement('p')
+                errorMessage.classList.add('error')
+                errorMessage.classList.add('center')
+                errorMessage.textContent = 'Invalid email and password.'
+                form.parentElement.insertBefore(errorMessage, form) //Put the message before the form and after the title
+                form.error = true
+            }
+        }
+    })
 }

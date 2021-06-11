@@ -228,6 +228,10 @@ app.post('/register', (req, res) => {
     }
 })
 
+app.post('/verify', (req, res) => {
+    let user = database.users()
+})
+
 //Upload video, then process and send back information and assign a frame to user
 app.post('/video', (req, res) => {
     //Check credentials first
