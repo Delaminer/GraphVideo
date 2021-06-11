@@ -229,7 +229,27 @@ app.post('/register', (req, res) => {
 })
 
 app.post('/verify', (req, res) => {
-    let user = database.users()
+    let credentials = JSON.parse(req.headers.credentials)
+    let user = database.users[credentials.email]
+    if (user.code.toUpperCase() == req.body.code.toUpperCase()) {
+        //Correct code
+        user.verified = true
+        saveDatabase()
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({
+            success: true,
+        }))
+    }
+    else {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({
+            success: false,
+        }))
+    }
 })
 
 //Upload video, then process and send back information and assign a frame to user

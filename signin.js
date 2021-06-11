@@ -242,32 +242,36 @@ document.getElementById('verify-button').onclick = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'credentials': JSON.stringify({ email: email, password: password })
+                'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
             },
             body: JSON.stringify({ code: verifyCode })
         })
         .then(response => response.json())
         .then(data => {
             console.log('verify is '+JSON.stringify(data))
+            if (data.success) {
+                //Success! Go to main page
+                redirect('/')
+            }
         })
     }
 
-    serverSignIn(email, hashedPassword, data => {
-        if (data.success) {
-            //Successfully signed in
-            signIn(data)
-        }
-        else {
-            //Failed to sign in
-            let form = document.getElementById('signin-form')
-            if (form.error == undefined || form.error == null || form.error == false) {
-                let errorMessage = document.createElement('p')
-                errorMessage.classList.add('error')
-                errorMessage.classList.add('center')
-                errorMessage.textContent = 'Invalid email and password.'
-                form.parentElement.insertBefore(errorMessage, form) //Put the message before the form and after the title
-                form.error = true
-            }
-        }
-    })
+    // serverSignIn(email, hashedPassword, data => {
+    //     if (data.success) {
+    //         //Successfully signed in
+    //         signIn(data)
+    //     }
+    //     else {
+    //         //Failed to sign in
+    //         let form = document.getElementById('signin-form')
+    //         if (form.error == undefined || form.error == null || form.error == false) {
+    //             let errorMessage = document.createElement('p')
+    //             errorMessage.classList.add('error')
+    //             errorMessage.classList.add('center')
+    //             errorMessage.textContent = 'Invalid email and password.'
+    //             form.parentElement.insertBefore(errorMessage, form) //Put the message before the form and after the title
+    //             form.error = true
+    //         }
+    //     }
+    // })
 }

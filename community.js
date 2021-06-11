@@ -40,7 +40,7 @@ let autoSignIn = () => {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data.success && data.verified) {
                 //Successfully signed in
                 USER_NAME = username
                 USER_EMAIL = email
