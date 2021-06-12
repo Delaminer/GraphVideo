@@ -275,3 +275,23 @@ document.getElementById('verify-button').onclick = () => {
     //     }
     // })
 }
+
+let resendEmailElement = document.getElementById('verify-resend-email')
+resendEmailElement.onclick = () => {
+    fetch('/verifyEmail', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD })
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('verifyEmail is '+JSON.stringify(data))
+        if (data.success) {
+            //Email was sent
+            resendEmailElement.textContent = 'Email sent.'
+            resendEmailElement.onclick = () => {}
+        }
+    })
+}

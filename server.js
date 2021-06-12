@@ -252,6 +252,27 @@ app.post('/verify', (req, res) => {
     }
 })
 
+app.get('/verifyEmail', (req, res) => {
+    let credentials = JSON.parse(req.headers.credentials)
+    if (validUser(credentials.email, credentials.password, false)) {
+        sendConfirmationEmail(database.users[credentials.email])
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({
+            success: true,
+        }))
+    }
+    else {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({
+            success: false,
+        }))
+    }
+})
+
 //Upload video, then process and send back information and assign a frame to user
 app.post('/video', (req, res) => {
     //Check credentials first
