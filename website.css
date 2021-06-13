@@ -274,19 +274,21 @@ input.error { border-color: rgb(255, 0, 0) !important; }
 
 
 
-/* Community Tab */
-.community {
+/* Community/MyProjects Tab */
+.community, 
+.myprojects {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     background-color:palegoldenrod;
 }
-.community .content {
+.community .content,
+.myprojects .content {
     padding: 50px;
     padding-top: 0px;
 }
-.community ul.nav {
+ul.nav {
     background-color:rgb(94, 92, 66);
     position: sticky;
     top: 0;
@@ -296,7 +298,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     overflow: hidden;
     user-select: none;
 }
-.community ul.nav li {
+ul.nav li {
     float: left;
     display: block;
     text-decoration: none;
@@ -306,11 +308,11 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     text-align: center;
     border-radius: 30px;
 }
-.community ul.nav li:hover {
+ul.nav li:hover {
     background-color: rgb(128, 125, 90);
     cursor: pointer;
 }
-.community ul.nav li.title {
+ul.nav li.title {
     font-size: xx-large;
     padding-bottom: 0;
     padding-left: 5px;
@@ -318,7 +320,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     padding-top: 5px;
     margin: 0px;
 }
-.community ul.nav li.title:hover {
+ul.nav li.title:hover {
     background-color: transparent;
     cursor: default;
 }

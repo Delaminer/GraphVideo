@@ -5,24 +5,40 @@ let redirect = (location) => {
 }
 
 let loadSignedInContent = () => {
+    //Left
     document.getElementById('community-project').textContent = 'Start a Project'
-    document.getElementById('community-signin').textContent = 'Sign Out'
-    document.getElementById('community-signin').onclick = () => { signOut() }
-    document.getElementById('goto-profile').style.display = 'block'
-    document.getElementById('community-welcome').textContent = 'Welcome, ' + USER_NAME + '!'
     document.getElementById('community-project').onclick = () => {
         redirect('/project')
     }
+    document.getElementById('community-myprojects').style.display = 'block'
+    document.getElementById('community-myprojects').onclick = () => {
+        //Go to my-projects page
+        redirect('/myprojects')
+    }
+
+    //Right
+    document.getElementById('community-signin').textContent = 'Sign Out'
+    document.getElementById('community-signin').onclick = () => { signOut() }
+    document.getElementById('goto-profile').style.display = 'block'
+
+    //Mainpage stuff
+    document.getElementById('community-welcome').textContent = 'Welcome, ' + USER_NAME + '!'
 }
 let loadGuestContent = () => {
+    //Left
     document.getElementById('community-project').textContent = 'Sign in to start a project'
-    document.getElementById('community-signin').textContent = 'Sign In'
-    document.getElementById('community-signin').onclick = () => { signIn() }
-    document.getElementById('goto-profile').style.display = 'none'
-    document.getElementById('community-welcome').textContent = 'Welcome, Guest!'
     document.getElementById('community-project').onclick = () => {
         redirect('/signin')
     }
+    document.getElementById('community-myprojects').style.display = 'none'
+
+    //Right
+    document.getElementById('community-signin').textContent = 'Sign In'
+    document.getElementById('community-signin').onclick = () => { signIn() }
+    document.getElementById('goto-profile').style.display = 'none'
+
+    //Mainpage stuff
+    document.getElementById('community-welcome').textContent = 'Welcome, Guest!'
 }
 
 let autoSignIn = () => {

@@ -149,6 +149,9 @@ app.get('/project', (req, res) => {
 app.get('/community', (req, res) => {
     return load('./community.html', req, res)
 })
+app.get('/myprojects', (req, res) => {
+    return load('./myprojects.html', req, res)
+})
 
 app.get('/login', (req, res) => {
     let credentials = JSON.parse(req.headers.credentials)
@@ -182,6 +185,39 @@ app.get('/projects', (req, res) => {
         'Content-Type': 'application/json'
     })
     return res.end(JSON.stringify({projects: database.projects}))
+})
+
+app.get('/user', (req, res) => {
+    //Get info about yourself (used in MyProjects)
+    //This does require credentials
+    let credentials = JSON.parse(req.headers.credentials)
+    if (validUser(credentials.email, credentials.password, true)) {
+        let user = database.users[credentials.email]
+        let projects = []
+        for(let i in database.projects) {
+            let project = database.projects[i]
+            if (project.creator != undefined && project.creator == user.username) {
+                //This user created it
+                projects.push(project)
+            }
+        }
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({
+            success: true,
+            username: user.username,
+            projects: projects
+        }))
+    }
+    else {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({
+            success: false,
+        }))
+    }
 })
 
 app.post('/register', (req, res) => {
