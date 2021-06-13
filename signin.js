@@ -1,4 +1,4 @@
-//TODO: Add INVALID_CODE error on verify page, add autosignin on signin page, add continue as guest option
+//TODO: Add INVALID_CODE error on verify page
 
 
 let clickElement = document.createElement('a')
@@ -334,3 +334,8 @@ let autoSignIn = () => {
     }
 }
 autoSignIn() //Actually run it
+
+//Go back to main page as a guest
+document.getElementById('signin-guest').onclick = () => {
+    redirect('/')
+}
