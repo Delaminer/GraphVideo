@@ -1,6 +1,3 @@
-//TODO: Add INVALID_CODE error on verify page
-
-
 let clickElement = document.createElement('a')
 let redirect = (location) => {
     clickElement.href = location
@@ -85,7 +82,7 @@ let addInputCycle = (elements) => {
     });
 }
 
-//Using the cycle to both signin and register pages
+//Using the cycle to signin, register, and verify pages
 addInputCycle([
     'signin-form-email',
     'signin-form-password',
@@ -97,6 +94,10 @@ addInputCycle([
     'register-form-password',
     'register-form-confirm-password',
     'register-form-button'
+])
+addInputCycle([
+    'verify-code',
+    'verify-button'
 ])
 
 //Error messages: for when signin/registration fails
@@ -255,6 +256,9 @@ document.getElementById('verify-button').onclick = () => {
             if (data.success) {
                 //Success! Go to main page
                 redirect('/')
+            }
+            else {
+                addError(document.getElementById('verify-code'), 'Invalid verification code.')
             }
         })
     }
