@@ -1,3 +1,6 @@
+//TODO: Add INVALID_CODE error on verify page, add autosignin on signin page, add continue as guest option
+
+
 let clickElement = document.createElement('a')
 let redirect = (location) => {
     clickElement.href = location
@@ -313,3 +316,21 @@ document.getElementById('verify-signout').onclick = () => {
     document.getElementById('account-verify').style.display = 'none'
 
 }
+
+
+
+//Automatically signin (or go to verify page) if there is local storage
+let autoSignIn = () => {
+    let username = localStorage.getItem('username')
+    let email = localStorage.getItem('email')
+    let password = localStorage.getItem('password')
+    if (username != null && email != null && password != null && username != '') {
+        serverSignIn(email, password, data => {
+            if (data.success) {
+                //Successfully signed in
+                signIn(data)
+            }
+        })
+    }
+}
+autoSignIn() //Actually run it
