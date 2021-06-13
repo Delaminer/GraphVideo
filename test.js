@@ -59,6 +59,7 @@ fs.readFile('database.db', 'utf8', (error, data) => {
                         try {
                             database = JSON.parse(jsonData)
                             saveDatabase()
+                            console.log('overwrote json')
                             return
                         }
                         catch(error) { 

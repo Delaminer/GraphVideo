@@ -295,3 +295,21 @@ resendEmailElement.onclick = () => {
         }
     })
 }
+
+document.getElementById('verify-signout').onclick = () => {
+    //Sign out, going to the main signin page
+    
+    //Clear global signin variables
+    USER_NAME = null
+    USER_EMAIL = null
+    USER_PASSWORD = null
+    //Clear local-save signin variables
+    localStorage.setItem('username', '')
+    localStorage.setItem('email', '')
+    localStorage.setItem('password', '')
+    
+    document.getElementById('account-signin').style.display = 'block'
+    document.getElementById('account-register').style.display = 'none'
+    document.getElementById('account-verify').style.display = 'none'
+
+}
