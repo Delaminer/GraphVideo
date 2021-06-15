@@ -12,7 +12,7 @@
                 padding: 50px;
                 padding-top: 0px;
             }
-            ul {
+            ul.nav {
                 background-color:rgb(94, 92, 66);
                 position: sticky;
                 top: 0;
@@ -21,7 +21,7 @@
                 padding: 0;
                 overflow: hidden;
             }
-            li {
+            .nav li {
                 float: left;
                 display: block;
                 text-decoration: none;
@@ -31,13 +31,13 @@
                 text-align: center;
                 border-radius: 30px;
             }
-            li:hover {
+            .nav li:hover {
                 background-color: aqua;
                 cursor: pointer;
             }
-            .left { float:left }
-            .right { float: right; }
-            .title {
+            .left { float:left !important; }
+            .right { float: right !important;}
+            .nav .title {
                 font-size: xx-large;
                 padding-bottom: 0;
                 padding-left: 5px;
@@ -45,10 +45,21 @@
                 padding-top: 5px;
                 margin: 0px;
             }
-            .title:hover {
+            .nav .title:hover {
                 
                 background-color: transparent;
                 cursor: default;
+            }
+
+            ul.mpl {
+                
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                border: solid thin black;
+            }
+            .mpl li {
+                border: solid thin red;
             }
         </style>
     </head>
@@ -61,23 +72,13 @@
         </ul>
         <div class="content">
             <h1>Welcome, Alex!</h1>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
-            <p>More</p>
+            <p>Here are your projects!</p>
+            <ul id="myprojects-list" class="mpl">
+                <video src="/uploads/27ytxa275r/short test.mp4"></video><li>Project aabbcc has 30 frames.</li>
+                <li>Project aassddf has 30 frames.<button>Edit</button></li>
+                <li>Project new cool project has 30 frames.<button>Edit</button></li>
+                <li>Project SUPER Cool test1234 has 30 frames.<button>Edit</button></li>
+            </ul>
         </div>
         <script>
             document.getElementById('ccc').onclick = () => {

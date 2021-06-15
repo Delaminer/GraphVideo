@@ -62,7 +62,7 @@ fetch('/user', {
     //Add the projects
     for(let p in data.projects) {
         let project = data.projects[p]
-        let projectElement = document.createElement('p')
+        let projectElement = document.createElement('li')
         projectElement.textContent = `Project ${project.projectName} has ${project.frames} frames.`
         if (!project.finished) {
             //Add edit button so it can continue to be worked on

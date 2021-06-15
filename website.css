@@ -324,3 +324,38 @@ ul.nav li.title:hover {
     background-color: transparent;
     cursor: default;
 }
+
+
+/* MyProjects */
+.myprojects .content button {
+    /* border-radius: 20px; */
+    width: 70px;
+    height: 35px;
+    box-sizing: border-box;
+    /* margin: 30px auto 30px auto; */
+    display: inline;
+    /* float: right; */
+    /* width: 50%; */
+    /* height: 50px; */
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    background-color: rgb(52, 98, 199);
+    font-size: large;
+    font-weight: bold;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+.myprojects .content button:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.myprojects .content button:active {
+    transform: translateY(4px);
+}
+.myprojects .content ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
