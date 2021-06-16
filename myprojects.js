@@ -74,6 +74,16 @@ fetch('/user', {
             }
             projectElement.appendChild(buttonElement)
         }
+        else {
+            //Add video
+            let videoElement = document.createElement('video')
+            videoElement.controls = true
+            videoElement.width = 250
+            let sourceElement = document.createElement('source')
+            sourceElement.src = '/uploads/' + project.folderBaseName + '/final_' + project.fileName
+            videoElement.appendChild(sourceElement)
+            projectElement.appendChild(videoElement)
+        }
         parent.appendChild(projectElement)
     }
 })
