@@ -96,10 +96,34 @@ var loadCommunity = () => {
         }
 
         //Add the projects
-        for(let project in data.projects) {
-            let projectElement = document.createElement('p')
-            projectElement.textContent = `Project ${data.projects[project].projectName} has ${data.projects[project].frames} frames.`
-            parent.appendChild(projectElement)
+        for(let p in data.projects) {
+
+            let project = data.projects[p]
+
+            //Only show finished projects
+            if (project.finished) {
+                let projectElement = document.createElement('li')
+                projectElement.textContent = project.projectName
+                //Add video
+                let videoElement = document.createElement('video')
+                
+                //Video settings
+                videoElement.controls = true
+                videoElement.loop = true
+                // videoElement.autoplay = true
+                // videoElement.muted = true
+                videoElement.width = 250
+
+                //Add source to video
+                let sourceElement = document.createElement('source')
+                sourceElement.src = '/uploads/' + project.folderBaseName + '/final_' + project.fileName
+                
+                //Connect elements
+                videoElement.appendChild(sourceElement)
+                projectElement.appendChild(videoElement)
+                parent.appendChild(projectElement)
+            }
+
         }
     })
 }

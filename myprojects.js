@@ -22,6 +22,11 @@ signIn()
 document.getElementById('goto-project').onclick = () => {
     redirect('/project')
 }
+//Back to Community button
+document.getElementById('goto-community').onclick = () => {
+    redirect('/')
+}
+
 
 //Sign out button
 document.getElementById('goto-signout').onclick = () => {

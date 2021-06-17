@@ -354,13 +354,15 @@ ul.nav li.title:hover {
 .myprojects .content button:active {
     transform: translateY(4px);
 }
-.myprojects .content ul {
+.myprojects .content ul,
+.community .content ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     /* display: inline; */
 }
-.myprojects .content li {
+.myprojects .content li,
+.community .content li {
     /* display: inline; */
     /* width: 33%; */
 }
