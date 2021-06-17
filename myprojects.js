@@ -71,14 +71,23 @@ fetch('/user', {
             buttonElement.onclick = () => {
                 //Edit element
                 console.log('Editing project '+project.projectName)
+                localStorage.setItem('job', project.projectName)
+                redirect('/project')
             }
             projectElement.appendChild(buttonElement)
         }
         else {
             //Add video
             let videoElement = document.createElement('video')
+            
+            //Video settings
             videoElement.controls = true
+            videoElement.loop = true
+            // videoElement.autoplay = true
+            // videoElement.muted = true
             videoElement.width = 250
+
+            //Add source to video
             let sourceElement = document.createElement('source')
             sourceElement.src = '/uploads/' + project.folderBaseName + '/final_' + project.fileName
             videoElement.appendChild(sourceElement)

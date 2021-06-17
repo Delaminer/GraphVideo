@@ -358,4 +358,9 @@ ul.nav li.title:hover {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    /* display: inline; */
+}
+.myprojects .content li {
+    /* display: inline; */
+    /* width: 33%; */
 }

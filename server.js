@@ -309,6 +309,64 @@ app.get('/verifyEmail', (req, res) => {
     }
 })
 
+app.get('/job', (req, res) => {
+    let credentials = JSON.parse(req.headers.credentials)
+    if (validUser(credentials.email, credentials.password, true)) {
+        //Get the name of the project the user sent
+        let projectName = req.headers.project
+        //Get the project
+        let project = database.projects[projectName]
+
+        //Assign them a frame! This code is pretty much a copy-paste from /video and /image
+        let message = {
+            complete: 2,
+            project: project
+        }
+
+        //If the project is finished, there is no point looking for a frame to assign because there are none.
+        if (!project.finished) {
+            message.assignedFrame = -1
+            for(let f in project.todo) {
+                if (project.todo[f] == 0) {
+                    message.complete = 0
+                    message.assignedFrame = f
+                    break
+                }
+                else if (project.todo[f] == 1) {
+                    message.complete = 1
+                    //We cannot assign the frame to this one, but we know it is not complete. Let's keep looping to find an unassigned incomplete frame.
+                }
+            }
+        }
+
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({ 
+            success: true,
+            message: message,
+            name: projectName,
+            assignedFrame: message.assignedFrame,
+            path: `uploads/${project.folderBaseName}`,
+            workers: 0,
+            project: project
+        }))
+    }
+    else {
+        res.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        res.end(JSON.stringify({ 
+            success: false,
+            name: projectName,
+            assignedFrame: initialAssignedFrame,
+            path: `uploads/${project.folderBaseName}`,
+            workers: 0,
+            project: project
+        }))
+    }
+})
+
 //Upload video, then process and send back information and assign a frame to user
 app.post('/video', (req, res) => {
     //Check credentials first
@@ -444,7 +502,15 @@ app.post('/video', (req, res) => {
                     res.writeHead(201, {
                         'Content-Type': 'application/json'
                     })
-                    res.end(JSON.stringify({ status: 'success', name: projectName, frames: frames, assignedFrame: initialAssignedFrame, path: `uploads/${folderBaseName}`, workers: 0, project: database.projects[projectName] }))
+                    
+                    res.end(JSON.stringify({ 
+                        status: 'success', 
+                        name: projectName, 
+                        assignedFrame: initialAssignedFrame, 
+                        path: `uploads/${folderBaseName}`, 
+                        workers: 0, 
+                        project: database.projects[projectName] 
+                    }))
                 }
                 else {
                     //An error occurred with the python script, return an error message

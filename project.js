@@ -333,6 +333,9 @@ let uploadVideoFile = () => {
 
             document.getElementById('status').textContent = 'Starting to work! Frame '+data.assignedFrame+' of '+project.frames+' for '+project.projectName
 
+            //Set this as the job
+            localStorage.setItem('job', currentImageJob.projectName)
+
             //Start working!
             nextImageJob(data.assignedFrame)
 
@@ -414,3 +417,58 @@ document.getElementById('project-video-confirm-start').onclick = () => {
         document.getElementById('project-video-render').style.display = 'block'
     }
 }
+
+
+//Automatically starts a job if assigned. This is used for user reloads (because javascript variable states are lost) and for redirects (from the MyProjects tab)
+let autoStartJob = () => {
+    let job = localStorage.getItem('job')
+    if (job.length > 0) {
+        //There is an assigned job
+        console.log('Automatically starting job ' + job)
+        fetch('/job', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'credentials': JSON.stringify({ email: USER_EMAIL, password: USER_PASSWORD }),
+                'project': job
+            }
+            // ,body: JSON.stringify({
+            //     uri: data,
+            //     projectName: currentImageJob.projectName,
+            //     folderBaseName: currentImageJob.folderBaseName,
+            //     frame: currentImageJob.frame,
+            // })
+        })
+        .then(response => response.json())
+        .then(data =>  {
+            //Receive info on what next needs to be done
+            let status = data.message.complete //0: assigned a frame, 1: no more frames left to be assigned (kind of confusing what to do for that one), 2: we just did the final frame and the video has been made
+            project = data.project
+            currentImageJob = {
+                projectName: data.name,
+                folderBaseName: project.folderBaseName,
+                path: data.path,
+                frame: data.assignedFrame,
+                total: project.frames
+            }
+
+            if (status == 0) { //Assigned to a frame
+                calculator.setBlank()
+                console.log('Proceeding to AUTOSTART work on frame '+data.assignedFrame)
+                document.getElementById('status').textContent = 'Working on frame '+data.assignedFrame+' of '+project.frames+' for '+project.projectName
+                nextImageJob(data.assignedFrame)
+            }
+            else if (status == 1) { //Waiting for other people to finish
+                //Not sure what to do here...
+                console.log('waiting for others to finish...')
+            }
+            else if (status == 2) { //We finished!
+                console.log('We can watch the final video now! at '+data.project.finalName)
+            }
+        })
+        .catch((error) => {
+            console.error('JobAssign Error:', error)
+        })
+    }
+}
+autoStartJob()
