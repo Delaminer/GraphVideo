@@ -103,7 +103,7 @@ var loadCommunity = () => {
             //Only show finished projects
             if (project.finished) {
                 let projectElement = document.createElement('li')
-                projectElement.textContent = project.projectName
+                projectElement.textContent = project.creator? `${project.projectName} by ${project.creator}` : project.projectName
                 //Add video
                 let videoElement = document.createElement('video')
                 
@@ -113,7 +113,7 @@ var loadCommunity = () => {
                 // videoElement.autoplay = true
                 // videoElement.muted = true
                 videoElement.width = 250
-
+                
                 //Add source to video
                 let sourceElement = document.createElement('source')
                 sourceElement.src = '/uploads/' + project.folderBaseName + '/final_' + project.fileName
