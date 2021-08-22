@@ -281,7 +281,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color:palegoldenrod;
+    background: forestgreen linear-gradient(0deg, rgb(255, 190, 0), rgb(255, 230, 0), rgb(255, 255, 0)) fixed;
     overflow: auto;
 }
 .community .content,
@@ -290,7 +290,7 @@ input.error { border-color: rgb(255, 0, 0) !important; }
     padding-top: 0px;
 }
 ul.nav {
-    background-color:rgb(94, 92, 66);
+    background-color:rgb(95, 62, 32);
     position: sticky;
     top: 0;
     list-style-type: none;
@@ -310,7 +310,7 @@ ul.nav li {
     border-radius: 30px;
 }
 ul.nav li:hover {
-    background-color: rgb(128, 125, 90);
+    background-color: rgb(114, 88, 63);
     cursor: pointer;
 }
 ul.nav li.title {
@@ -364,6 +364,15 @@ ul.nav li.title:hover {
 }
 .myprojects .content li,
 .community .content li {
-    /* display: inline; */
-    /* width: 33%; */
+    display: inline-block;
+    /* width: 50%; */
+    border: solid thick black;
+    background-color: white;
+    margin: 30px;
+    padding: 20px;
+    border-radius: 20px;
+}
+.community .content li .title,
+.myprojects .content li .title {
+    text-align: center;
 }

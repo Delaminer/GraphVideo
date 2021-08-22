@@ -252,6 +252,8 @@ let saveImage = (data) => {
         }
         else if (status == 2) { //We finished!
             console.log('We can watch the final video now! at '+data.project.finalName)
+            //Redirect back to the projects tab
+            redirect('/myprojects')
         }
     })
     .catch((error) => {

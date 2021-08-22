@@ -68,7 +68,10 @@ fetch('/user', {
     for(let p in data.projects) {
         let project = data.projects[p]
         let projectElement = document.createElement('li')
-        projectElement.textContent = `Project ${project.projectName} has ${project.frames} frames.`
+        let projectTitle = document.createElement('div')
+        projectTitle.classList.add('title')
+        projectTitle.textContent = `Project ${project.projectName} has ${project.frames} frames.`
+        projectElement.appendChild(projectTitle)
         if (!project.finished) {
             //Add edit button so it can continue to be worked on
             let buttonElement = document.createElement('button')
@@ -90,7 +93,7 @@ fetch('/user', {
             videoElement.loop = true
             // videoElement.autoplay = true
             // videoElement.muted = true
-            videoElement.width = 250
+            videoElement.width = 400
 
             //Add source to video
             let sourceElement = document.createElement('source')

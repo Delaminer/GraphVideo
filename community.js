@@ -103,7 +103,9 @@ var loadCommunity = () => {
             //Only show finished projects
             if (project.finished) {
                 let projectElement = document.createElement('li')
-                projectElement.textContent = project.creator? `${project.projectName} by ${project.creator}` : project.projectName
+                let projectTitle = document.createElement('div')
+                projectTitle.classList.add('title')
+                projectTitle.textContent = project.creator? `${project.projectName} by ${project.creator}` : project.projectName
                 //Add video
                 let videoElement = document.createElement('video')
                 
@@ -112,7 +114,7 @@ var loadCommunity = () => {
                 videoElement.loop = true
                 // videoElement.autoplay = true
                 // videoElement.muted = true
-                videoElement.width = 250
+                videoElement.width = 400
                 
                 //Add source to video
                 let sourceElement = document.createElement('source')
@@ -120,6 +122,7 @@ var loadCommunity = () => {
                 
                 //Connect elements
                 videoElement.appendChild(sourceElement)
+                projectElement.appendChild(projectTitle)
                 projectElement.appendChild(videoElement)
                 parent.appendChild(projectElement)
             }
