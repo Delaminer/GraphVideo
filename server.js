@@ -110,12 +110,25 @@ let mailOptions = {
 }
 let sendConfirmationEmail = (user) => {
     mailOptions.to = user.email
+    mailOptions.subject = 'GraphVideo Confirmation Email'
     mailOptions.text = `Thank you ${user.username} for signing up for GraphVideo. Please enter the code ${user.code} on the website to verify your email address (${user.email}). Thank you.`
     transporter.sendMail(mailOptions, function(error, info){
       if (error) {
         console.log(error)
       } else {
         console.log('Confirmation email (' + user.email + ') sent: ' + info.response)
+      }
+    })
+}
+let sendForgotPasswordEmail = (user) => {
+    mailOptions.to = user.email
+    mailOptions.subject = 'Forgot GraphVideo Password'
+    mailOptions.text = `${user.username}, your password for GraphVideo is ${user.password}.`
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error)
+      } else {
+        console.log('Forgot password email (' + user.email + ') sent: ' + info.response)
       }
     })
 }
@@ -308,6 +321,31 @@ app.get('/verifyEmail', (req, res) => {
         }))
     }
 })
+
+// app.get('/forgotPassword', (req, res) => {
+//     let credentials = JSON.parse(req.headers.credentials)
+//     let existingUser = database.users[credentials.email]
+//     if (existingUser != undefined && existingUser != null) {
+//         //The user does exist, send them an email
+//         sendForgotPasswordEmail(existingUser)
+//         res.writeHead(200, {
+//             'Content-Type': 'application/json'
+//         })
+//         res.end(JSON.stringify({
+//             success: true,
+//         }))
+//     }
+//     else {
+//         //No user found
+//         res.writeHead(200, {
+//             'Content-Type': 'application/json'
+//         })
+//         res.end(JSON.stringify({
+//             success: false,
+//             error: 1 //No user found
+//         }))
+//     }
+// })
 
 app.get('/job', (req, res) => {
     let credentials = JSON.parse(req.headers.credentials)

@@ -54,7 +54,8 @@ input.error { border-color: rgb(255, 0, 0) !important; }
 }
 .signin,
 .register,
-.verify {
+.verify,
+.forgot {
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 10px 50px 10px;

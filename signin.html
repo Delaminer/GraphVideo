@@ -24,7 +24,8 @@
                 <p>Password</p>
                 <input type="password" id="signin-form-password">
                 <button class="big-button" id="signin-form-button">Sign In</button>
-                <div class="bottom">
+                <p class="center pointer" id="signin-goto-register">Create an Account</p>
+                <div class="bottom" style="display: none;" >
                     <p class="center pointer" id="signin-goto-register">Create an Account</p>
                     <p class="center pointer" id="signin-goto-forgot">Forgot password?</p>
                 </div>
@@ -53,9 +54,22 @@
                 <p>Verification Code</p>
                 <input type="text" id="verify-code" autofocus>
                 <button class="big-button" id="verify-button">Verify</button>
-                <div class="bottom">
+                <div class="bottom" style="text-align: center;">
                     <p class="center pointer" id="verify-resend-email">Resend email</p>
                     <p class="center pointer" id="verify-signout">Sign Out</p>
+                </div>
+            </div>
+        </div>
+        <div class="forgot" id="account-forgot" style="display: none;">
+            <h1 class="center">Forgot Password</h1>
+            <p class="center hint">Please enter your email address, and your password will be emailed to you.</p>
+            <div class="form" id="signin-form">
+                <p>Email</p>
+                <input type="text" id="forgot-form-email" autofocus>
+                <button class="big-button" id="forgot-button">Send Email</button>
+                <div class="bottom">
+                    <p class="center pointer" id="forgot-goto-signin">Sign In</p>
+                    <p class="center pointer" id="forgot-goto-register">Create Account</p>
                 </div>
             </div>
         </div>

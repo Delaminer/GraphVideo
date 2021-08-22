@@ -22,6 +22,7 @@ let signIn = (credentials) => {
         document.getElementById('account-signin').style.display = 'none'
         document.getElementById('account-register').style.display = 'none'
         document.getElementById('account-verify').style.display = 'block'
+        document.getElementById('account-forgot').style.display = 'none'
     }
 }
 
@@ -42,6 +43,14 @@ document.getElementById('signin-goto-register').onclick = () => {
     document.getElementById('account-signin').style.display = 'none'
     document.getElementById('account-register').style.display = 'block'
     document.getElementById('account-verify').style.display = 'none'
+    document.getElementById('account-forgot').style.display = 'none'
+}
+//Go to forgot password from signin page
+document.getElementById('signin-goto-forgot').onclick = () => {
+    document.getElementById('account-signin').style.display = 'none'
+    document.getElementById('account-register').style.display = 'none'
+    document.getElementById('account-verify').style.display = 'none'
+    document.getElementById('account-forgot').style.display = 'block'
 }
 
 //Go to signin page from register page
@@ -49,6 +58,22 @@ document.getElementById('register-goto-signin').onclick = () => {
     document.getElementById('account-signin').style.display = 'block'
     document.getElementById('account-register').style.display = 'none'
     document.getElementById('account-verify').style.display = 'none'
+    document.getElementById('account-forgot').style.display = 'none'
+}
+
+//Go to register page from signin page
+document.getElementById('forgot-goto-signin').onclick = () => {
+    document.getElementById('account-signin').style.display = 'block'
+    document.getElementById('account-register').style.display = 'none'
+    document.getElementById('account-verify').style.display = 'none'
+    document.getElementById('account-forgot').style.display = 'none'
+}
+//Go to forgot password from signin page
+document.getElementById('forgot-goto-register').onclick = () => {
+    document.getElementById('account-signin').style.display = 'none'
+    document.getElementById('account-register').style.display = 'block'
+    document.getElementById('account-verify').style.display = 'none'
+    document.getElementById('account-forgot').style.display = 'none'
 }
 
 //Add input cycles for easy user input. This allows the Enter button to be used to move from field to field, which many users (including me) find convenient.
@@ -283,6 +308,31 @@ document.getElementById('verify-button').onclick = () => {
     // })
 }
 
+//Forgot password: email password to user
+let forgotPasswordElement = document.getElementById('forgot-button')
+forgotPasswordElement.onclick = () => {
+    let emailAddress = document.getElementById('forgot-form-email').value
+    fetch('/forgotPassword', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'credentials': JSON.stringify({ email: emailAddress })
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            //Email was sent
+            forgotPasswordElement.textContent = 'Email sent!'
+            forgotPasswordElement.onclick = () => {}
+        }
+        else {
+            //Invalid email address
+            addError(document.getElementById('forgot-form-email'), 'No account found for this email address.')
+        }
+    })
+}
+
 let resendEmailElement = document.getElementById('verify-resend-email')
 resendEmailElement.onclick = () => {
     fetch('/verifyEmail', {
@@ -318,6 +368,7 @@ document.getElementById('verify-signout').onclick = () => {
     document.getElementById('account-signin').style.display = 'block'
     document.getElementById('account-register').style.display = 'none'
     document.getElementById('account-verify').style.display = 'none'
+    document.getElementById('account-forgot').style.display = 'none'
 
 }
 
