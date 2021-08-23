@@ -7,9 +7,11 @@ def ef(in_file, out_file):
     img = cv2.imread(in_file)
     #Image processing
 
-    #Step 1: grayscale
     i = img
+    #Step 1: grayscale
     i = cv2.cvtColor(i, cv2.COLOR_BGR2GRAY)
+    #Step 2: blur
+    i = cv2.medianBlur(i, 5)
     i = cv2.Canny(i,100,200)
     i = cv2.bitwise_not(i)
 

@@ -21,6 +21,7 @@ database.db
 # All uploads
 uploads/*
 !uploads/.gitkeep
+video tests/
 
 # Generated stuff
 __pycache__/

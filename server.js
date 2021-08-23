@@ -461,7 +461,7 @@ app.post('/video', (req, res) => {
         //Success uploading, now let's do our magic on it (ffmpeg/opencv-python/potrace) and send back the SVGs
 
         //FFMPEG begins by turning the video into individual frames
-        exec(`ffmpeg -i "uploads/${folderBaseName}/${fileName}" "uploads/${folderBaseName}/frames/frame%05d.jpg"`, (error, stdout, stderr) => {
+        exec(`ffmpeg -i "uploads/${folderBaseName}/${fileName}" -vf scale=192:144 "uploads/${folderBaseName}/frames/frame%05d.jpg"`, (error, stdout, stderr) => {
             if (error) {
                 console.log(`FFMPEG-extract error: ${error.message}`)
                 res.writeHead(500, {
@@ -530,6 +530,7 @@ app.post('/video', (req, res) => {
                     
                         database.projects[projectName].fps = fpsLine.split(' ')[1]
                         database.projects[projectName].resolution = resolutionLine.split(' ')[1]
+                        database.projects[projectName].resolution = '192x144'
 
                         
                         saveDatabase() //Save the added project
